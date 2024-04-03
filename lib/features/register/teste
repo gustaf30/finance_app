@@ -1,0 +1,59 @@
+child: SingleChildScrollView(
+          padding: EdgeInsets.zero,
+          child: Container(
+              decoration: const BoxDecoration(
+                color: AppColors.beige1,
+                borderRadius: BorderRadius.all(Radius.circular(28)),
+              ),
+              margin: const EdgeInsets.only(
+                  top: 200, left: 50, right: 50, bottom: 75),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top:30, left: 16, right: 16.0, bottom: 16.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Name',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Confirm password',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: PrimaryButton(
+                      text: 'Register',
+                      onPressed: () {
+                        log('Register button pressed');
+                      },
+                    ),
+                  ),
+                ],
+              )),
+        ),
