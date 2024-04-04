@@ -27,16 +27,19 @@ class RegisterUserPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Positioned(
-              top: 300,
-              left: 150,
-              child: Icon(
-                Icons.audiotrack,
-                color: Colors.green,
-                size: 30.0,
-              ),
+            SizedBox(height: 100),
+            Icon(
+              Icons.person_rounded,
+              color: AppColors.beige1,
+              size: 50.0,
             ),
-            Flexible(
+            Expanded(
+              child: Container(
+              decoration: const BoxDecoration(
+                  color: AppColors.beige1,
+                  borderRadius: BorderRadius.all(Radius.circular(28)),
+                ),
+              margin: const EdgeInsets.only(top: 100, bottom: 50, left: 50, right: 50),
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
@@ -46,7 +49,7 @@ class RegisterUserPage extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(28)),
                     ),
                     margin: const EdgeInsets.only(
-                        top: 200, left: 50, right: 50, bottom: 75),
+                        top: 30, left: 20, right: 20, bottom: 75),
                     child: Column(
                       children: [
                         Padding(
@@ -99,6 +102,7 @@ class RegisterUserPage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
             ),
           ],
         ),
