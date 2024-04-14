@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:finance_app/features/sign_up/sign_up_page.dart';
+import 'package:finance_app/features/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 import 'features/sign_in/sign_in_page.dart';
@@ -10,7 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: SignInPage(),
+      home: HomePage(),
     );
   }
 }
