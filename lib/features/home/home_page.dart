@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
-import 'package:finance_app/common/widgets/primary_button.dart';
 import 'package:finance_app/features/new_transaction/new_transaction_page.dart';
 import 'package:finance_app/features/profile/profile_page.dart';
-import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

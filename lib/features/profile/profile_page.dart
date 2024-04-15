@@ -2,6 +2,9 @@ import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/features/home/home_page.dart';
 import 'package:finance_app/features/new_transaction/new_transaction_page.dart';
+import 'package:finance_app/features/profile/change_name_page.dart';
+import 'package:finance_app/features/profile/change_password_page.dart';
+import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -67,34 +70,57 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               height: 300, // Ajuste a altura conforme necessário
               width: double.infinity,
-              child: const Column(
+              child: Column(
                 children: [
-                  SizedBox(height: 30),
-                  Row(
-                    children: [
-                      SizedBox(width: 20),
-                      Icon(Icons.person_rounded),
-                      SizedBox(width: 10),
-                      Text(
-                        'Mudar nome',
-                        style: AppTextStyles.notSoSmallText,
-                      ),
-                    ],
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ChangeNamePage()),
+                      );
+                    },
+                    child: const Row(
+                      children: [
+                        SizedBox(width: 20),
+                        Icon(Icons.person_rounded),
+                        SizedBox(width: 10),
+                        Text(
+                          'Mudar nome',
+                          style: AppTextStyles.notSoSmallText,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 30),
-                  Row(
-                    children: [
-                      SizedBox(width: 20),
-                      Icon(Icons.password),
-                      SizedBox(width: 10),
-                      Text(
-                        'Alterar senha',
-                        style: AppTextStyles.notSoSmallText,
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ChangePasswordPage()),
+                      );
+                    },
+                    child: const Row(
+                      children: [
+                        SizedBox(width: 20),
+                        Icon(Icons.password),
+                        SizedBox(width: 10),
+                        Text(
+                          'Alterar senha',
+                          style: AppTextStyles.notSoSmallText,
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 30),
-                  Row(
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SignInPage()),
+                      );
+                    },
+                    child: const Row(
                     children: [
                       SizedBox(width: 20),
                       Icon(Icons.logout),
@@ -104,6 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: AppTextStyles.notSoSmallText,
                       ),
                     ],
+                  ),
                   ),
                 ],
               ),

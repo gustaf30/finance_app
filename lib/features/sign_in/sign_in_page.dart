@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/constants/app_colors.dart';
@@ -20,9 +23,16 @@ class SignInPage extends StatelessWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: const Column(
+        child: Column(
           children: [
-            SizedBox(height: 100),
+            SizedBox(height: 80),
+            Text(
+              'budgy',
+              style: AppTextStyles.mediumText.copyWith(
+                color: AppColors.beige1,
+              )
+            ),
+            SizedBox(height: 30),
             Icon(
               Icons.person_rounded,
               color: AppColors.beige1,

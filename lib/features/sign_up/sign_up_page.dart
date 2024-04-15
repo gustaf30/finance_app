@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/signup_form_box.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +24,15 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
         child: Column(
-          children: const [
-            SizedBox(height: 100),
+          children: [
+            SizedBox(height: 50),
+            Text(
+              'budgy',
+              style: AppTextStyles.mediumText.copyWith(
+                color: AppColors.beige1,
+              )
+            ),
+            SizedBox(height: 20),
             Icon(
               Icons.person_rounded,
               color: AppColors.beige1,
