@@ -1,7 +1,6 @@
 import 'dart:developer';
-
+import 'package:finance_app/features/home/home_page.dart';
 import 'package:flutter/material.dart';
-
 import '../constants/app_colors.dart';
 import 'primary_button.dart';
 
@@ -13,11 +12,47 @@ class NewTransactionForm extends StatefulWidget {
 }
 
 class _NewTransactionFormState extends State<NewTransactionForm> {
+  late double _valor = 0.0;
   String? _transactionType;
   final _valueController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _categoryController = TextEditingController();
   final _dateController = TextEditingController();
+
+  void _add() {
+    if (_valueController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _categoryController.text.isEmpty ||
+        _dateController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Por favor, preencha todos os campos'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    if (_transactionType == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Por favor, selecione o tipo de transação'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Transação adicionada!'),
+          backgroundColor: AppColors.lightBlue1,
+        ),
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -45,15 +80,18 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
               borderRadius: BorderRadius.all(Radius.circular(28)),
             ),
             margin: const EdgeInsets.only(
-              top: 30,
               left: 20,
               right: 20,
-              bottom: 75,
             ),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.only(
+                    top: 30,
+                    left: 12,
+                    right: 12,
+                    bottom: 12,
+                  ),
                   child: TextFormField(
                     controller: _valueController,
                     keyboardType: TextInputType.number,
@@ -61,15 +99,6 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                       hintText: 'Valor',
                       border: OutlineInputBorder(),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Informe um valor';
-                      }
-                      if (double.tryParse(value) == null) {
-                        return 'Informe um valor numérico';
-                      }
-                      return null;
-                    },
                   ),
                 ),
                 Padding(
@@ -128,7 +157,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                         groupValue: _transactionType,
                         onChanged: (value) {
                           setState(() {
-                            _transactionType = value as String?;
+                            _transactionType = value.toString();
                           });
                           log('Despesa selecionada');
                         },
@@ -139,7 +168,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                         groupValue: _transactionType,
                         onChanged: (value) {
                           setState(() {
-                            _transactionType = value as String?;
+                            _transactionType = value.toString();
                           });
                           log('Receita selecionada');
                         },
@@ -156,9 +185,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                   ),
                   child: PrimaryButton(
                     text: 'Adicionar',
-                    onPressed: () {
-                      log('Botão pressionado');
-                    },
+                    onPressed: _add,
                   ),
                 ),
               ],

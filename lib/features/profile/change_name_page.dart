@@ -1,7 +1,6 @@
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
-import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:finance_app/features/profile/success_name_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +12,31 @@ class ChangeNamePage extends StatefulWidget {
 }
 
 class _ChangeNamePageState extends State<ChangeNamePage> {
+  final _nameController = TextEditingController();
+
+  void _changeName() {
+    if (_nameController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, preencha o campo de nome'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SuccessNamePage()),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +44,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
         title: Text(
           'Alterar nome',
           style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.darkBlue2),
-          ),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.beige1,
         elevation: 0,
@@ -72,6 +96,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
+                      controller: _nameController,
                       decoration: InputDecoration(
                         labelText: 'Nome',
                         labelStyle: AppTextStyles.notSoSmallText.copyWith(color: AppColors.darkBlue2),
@@ -85,13 +110,11 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 80),
                     child: PrimaryButton(
-                      text: 'Salvar', 
+                      text: 'Salvar',
                       onPressed: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SuccessNamePage()),
-                      );
-                    }),
+                        _changeName();
+                      },
+                    ),
                   ),
                 ],
               ),

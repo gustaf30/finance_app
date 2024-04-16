@@ -5,7 +5,7 @@ import 'package:finance_app/features/profile/success_password_page.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({Key? key}) : super(key: key);
+  const ChangePasswordPage({super.key});
 
   @override
   _ChangePasswordPageState createState() => _ChangePasswordPageState();
@@ -21,6 +21,43 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     super.initState();
     _currentPasswordController = TextEditingController();
     _newPasswordController = TextEditingController();
+  }
+
+  void _changePassword() {
+    if (_currentPasswordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, insira a senha atual'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (_newPasswordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, insira a nova senha'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (_newPasswordController.text == _currentPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('A nova senha não pode ser igual à senha atual!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SuccessPasswordPage()),
+      );
+    }
   }
 
   @override
@@ -144,13 +181,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 80),
                     child: PrimaryButton(
-                      text: 'Salvar',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const SuccessPasswordPage()),
-                      );
-                    }),
+                        text: 'Salvar',
+                        onPressed: () {
+                          _changePassword();
+                        }),
                   ),
                 ],
               ),

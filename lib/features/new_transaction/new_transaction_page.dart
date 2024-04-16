@@ -1,13 +1,12 @@
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/new_transacton_form.dart';
-import 'package:finance_app/common/widgets/signup_form_box.dart';
 import 'package:finance_app/features/home/home_page.dart';
 import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class NewTransactionPage extends StatefulWidget {
-  const NewTransactionPage({Key? key}) : super(key: key);
+  const NewTransactionPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api

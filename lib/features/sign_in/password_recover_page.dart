@@ -1,7 +1,6 @@
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
-import 'package:finance_app/features/profile/success_password_page.dart';
 import 'package:finance_app/features/sign_in/password_recover_success_page.dart';
 import 'package:flutter/material.dart';
 

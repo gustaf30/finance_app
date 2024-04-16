@@ -1,9 +1,8 @@
-import 'package:finance_app/features/profile/change_password_page.dart';
-import 'package:finance_app/features/sign_in/password_recover_page.dart';
-import 'package:finance_app/features/sign_up/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import 'package:finance_app/features/home/home_page.dart';
+import 'package:finance_app/features/sign_in/password_recover_page.dart';
+import 'package:finance_app/features/sign_up/sign_up_page.dart';
 import 'primary_button.dart';
 
 class SignInFormBox extends StatefulWidget {
@@ -15,6 +14,8 @@ class SignInFormBox extends StatefulWidget {
 
 class _SignInFormBoxState extends State<SignInFormBox> {
   bool _showPassword = false;
+  late String _email = '';
+  late String _senha = '';
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -22,29 +23,51 @@ class _SignInFormBoxState extends State<SignInFormBox> {
     });
   }
 
+  void _signIn() {
+    bool isEmailValid = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z.]+$').hasMatch(_email);
+
+    if (!isEmailValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Por favor, insira um email válido!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.beige1,
           borderRadius: BorderRadius.all(Radius.circular(28)),
         ),
-        margin: const EdgeInsets.only(top: 80, bottom: 100, left: 50, right: 50),
+        margin: EdgeInsets.only(top: 80, bottom: 100, left: 50, right: 50),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColors.beige1,
                 borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
-              margin: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 0),
+              margin: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 0),
               child: Column(
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(16.0),
                     child: TextField(
+                      onChanged: (value) {
+                        _email = value;
+                      },
                       decoration: InputDecoration(
                         hintText: 'Email',
                         border: OutlineInputBorder(),
@@ -54,6 +77,9 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                   Padding(
                     padding: EdgeInsets.all(16.0),
                     child: TextField(
+                      onChanged: (value) {
+                        _senha = value;
+                      },
                       obscureText: !_showPassword,
                       decoration: InputDecoration(
                         hintText: 'Senha',
@@ -69,41 +95,38 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 16.0, bottom: 15.0, left: 16.0, right: 16.0),
+                    padding: EdgeInsets.only(
+                        top: 16.0, bottom: 15.0, left: 16.0, right: 16.0),
                     child: PrimaryButton(
                       text: 'Entrar',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const HomePage()),
-                        );
-                      },
+                      onPressed: _signIn,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const SignUpPage()),
-                        );
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
                     },
-                    child: const Text(
+                    child: Text(
                       'Não tenho uma conta',
                       style: TextStyle(
                         color: AppColors.lightBlue2,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const PasswordRecoverPage()),
-                        );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PasswordRecoverPage()),
+                      );
                     },
-                    child: const Text(
+                    child: Text(
                       'Esqueci minha senha',
                       style: TextStyle(
                         color: AppColors.lightBlue2,
