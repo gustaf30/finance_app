@@ -63,7 +63,3 @@ https://www.figma.com/file/FaexLZ0LIG09krkHTMUvWp/Financy-App-(Copy)?type=design
 ### Distribuição das atividades entre os integrantes do grupo
 - William: Prototipação das telas (Figma)
 - Gustavo e Maria: Desenvolvimento do design das telas e funcionalidade dos botões
-
-### Funcionalidades faltantes
-- Tratamento de variáveis
-- Tratamento e feedback de erros
