@@ -33,6 +33,8 @@ flutter run
 ```
 Isso irá compilar e instalar o aplicativo no dispositivo conectado.
 
+Outra possibilidade, é utilizar o Android SDK para simular um dispositivo Android em seu computador, nesse caso, recomenda-se a versão 14.0 do Android, que foi a mesma utilizada no desenvolvimento.
+
 ### Requisitos de sistema
 
 Dart SDK Version 3.3.2 or greater.
