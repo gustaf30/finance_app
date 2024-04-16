@@ -11,11 +11,11 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // simulando o carregamento
     Future.delayed(Duration(seconds: 3), () {
-      // Navega para a página principal após 3 segundos (simulando o carregamento)
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => OnboardingPage(), // Substitua pelo nome da sua página principal
+          builder: (context) => OnboardingPage(),
         ),
       );
     });

@@ -5,7 +5,7 @@ import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 class PasswordRecoverSuccessPage extends StatefulWidget {
-  const PasswordRecoverSuccessPage({Key? key}) : super(key: key);
+  const PasswordRecoverSuccessPage({super.key});
 
   @override
   _PasswordRecoverSuccessPageState createState() => _PasswordRecoverSuccessPageState();
@@ -51,7 +51,7 @@ class _PasswordRecoverSuccessPageState extends State<PasswordRecoverSuccessPage>
               width: double.infinity,
               child: Column(
                 children: [
-                  SizedBox(height: 70),
+                  const SizedBox(height: 70),
                   Text(
                     'Verifique seu email',
                     style: AppTextStyles.notSoSmallText

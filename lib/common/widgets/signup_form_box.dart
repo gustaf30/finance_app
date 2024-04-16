@@ -72,49 +72,49 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         top: 20.0, bottom: 16.0, left: 16.0, right: 16.0),
                     child: TextField(
                       onChanged: (value) {
                         _nome = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Nome completo',
                         border: OutlineInputBorder(),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: TextField(
                       onChanged: (value) {
                         _email = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Email',
                         border: OutlineInputBorder(),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: TextField(
                       onChanged: (value) {
                         _senha = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Senha',
                         border: OutlineInputBorder(),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: TextField(
                       onChanged: (value) {
                         _senha2 = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Confirme a senha',
                         border: OutlineInputBorder(),
                       ),

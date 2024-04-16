@@ -5,7 +5,7 @@ import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class SuccessPasswordPage extends StatefulWidget {
-  const SuccessPasswordPage({Key? key});
+  const SuccessPasswordPage({super.key});
 
   @override
   State<SuccessPasswordPage> createState() => _SuccessPasswordPageState();

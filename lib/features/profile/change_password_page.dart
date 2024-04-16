@@ -138,8 +138,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     child: TextField(
                       controller: _currentPasswordController,
                       obscureText: !_showPassword,
-                      style: TextStyle(color: AppColors.darkBlue2),
-                      decoration: InputDecoration(
+                      style: const TextStyle(color: AppColors.darkBlue2),
+                      decoration: const InputDecoration(
                         labelText: 'Senha Atual',
                         labelStyle: TextStyle(color: AppColors.darkBlue2),
                         enabledBorder: UnderlineInputBorder(
@@ -157,10 +157,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     child: TextField(
                       controller: _newPasswordController,
                       obscureText: !_showPassword,
-                      style: TextStyle(color: AppColors.darkBlue2),
+                      style: const TextStyle(color: AppColors.darkBlue2),
                       decoration: InputDecoration(
                         labelText: 'Nova Senha',
-                        labelStyle: TextStyle(color: AppColors.darkBlue2),
+                        labelStyle: const TextStyle(color: AppColors.darkBlue2),
                         suffixIcon: IconButton(
                           onPressed: _togglePasswordVisibility,
                           icon: Icon(_showPassword
@@ -168,10 +168,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               : Icons.visibility_off),
                           color: AppColors.darkBlue2,
                         ),
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: AppColors.darkBlue2),
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: AppColors.darkBlue2),
                         ),
                       ),

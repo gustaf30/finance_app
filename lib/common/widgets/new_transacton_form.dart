@@ -5,14 +5,13 @@ import '../constants/app_colors.dart';
 import 'primary_button.dart';
 
 class NewTransactionForm extends StatefulWidget {
-  const NewTransactionForm({Key? key}) : super(key: key);
+  const NewTransactionForm({super.key});
 
   @override
   State<NewTransactionForm> createState() => _NewTransactionFormState();
 }
 
 class _NewTransactionFormState extends State<NewTransactionForm> {
-  late double _valor = 0.0;
   String? _transactionType;
   final _valueController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -25,7 +24,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
         _categoryController.text.isEmpty ||
         _dateController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Por favor, preencha todos os campos'),
           backgroundColor: Colors.red,
         ),
@@ -34,7 +33,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
     }
     if (_transactionType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Por favor, selecione o tipo de transação'),
           backgroundColor: Colors.red,
         ),
@@ -105,7 +104,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
                     controller: _descriptionController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Descrição',
                       border: OutlineInputBorder(),
                     ),
@@ -115,7 +114,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
                     controller: _categoryController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Categoria',
                       border: OutlineInputBorder(),
                     ),
@@ -140,7 +139,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                     child: AbsorbPointer(
                       child: TextFormField(
                         controller: _dateController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Data',
                           border: OutlineInputBorder(),
                         ),

@@ -6,11 +6,11 @@ import '../constants/app_text_styles.dart';
 class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
-  PrimaryButton({
+  const PrimaryButton({
     required this.text,
     this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -6,9 +6,10 @@ import 'package:finance_app/features/sign_up/sign_up_page.dart';
 import 'primary_button.dart';
 
 class SignInFormBox extends StatefulWidget {
-  const SignInFormBox({Key? key}) : super(key: key);
+  const SignInFormBox({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignInFormBoxState createState() => _SignInFormBoxState();
 }
 
@@ -28,8 +29,17 @@ class _SignInFormBoxState extends State<SignInFormBox> {
 
     if (!isEmailValid) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Por favor, insira um email válido!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    } 
+    if (_senha.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, insira uma senha!'),
           backgroundColor: Colors.red,
         ),
       );
@@ -37,7 +47,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     }
   }
@@ -46,36 +56,36 @@ class _SignInFormBoxState extends State<SignInFormBox> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.beige1,
           borderRadius: BorderRadius.all(Radius.circular(28)),
         ),
-        margin: EdgeInsets.only(top: 80, bottom: 100, left: 50, right: 50),
+        margin: const EdgeInsets.only(top: 80, bottom: 100, left: 50, right: 50),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppColors.beige1,
                 borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
-              margin: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 0),
+              margin: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 0),
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: TextField(
                       onChanged: (value) {
                         _email = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Email',
                         border: OutlineInputBorder(),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: TextField(
                       onChanged: (value) {
                         _senha = value;
@@ -83,7 +93,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                       obscureText: !_showPassword,
                       decoration: InputDecoration(
                         hintText: 'Senha',
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         suffixIcon: IconButton(
                           onPressed: _togglePasswordVisibility,
                           icon: Icon(_showPassword
@@ -95,38 +105,38 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         top: 16.0, bottom: 15.0, left: 16.0, right: 16.0),
                     child: PrimaryButton(
                       text: 'Entrar',
                       onPressed: _signIn,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                        MaterialPageRoute(builder: (context) => const SignUpPage()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Não tenho uma conta',
                       style: TextStyle(
                         color: AppColors.lightBlue2,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PasswordRecoverPage()),
+                            builder: (context) => const PasswordRecoverPage()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Esqueci minha senha',
                       style: TextStyle(
                         color: AppColors.lightBlue2,
