@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
@@ -5,7 +7,7 @@ import 'package:finance_app/features/sign_in/password_recover_success_page.dart'
 import 'package:flutter/material.dart';
 
 class PasswordRecoverPage extends StatefulWidget {
-  const PasswordRecoverPage({Key? key}) : super(key: key);
+  const PasswordRecoverPage({super.key});
 
   @override
   _PasswordRecoverPageState createState() => _PasswordRecoverPageState();
@@ -51,7 +53,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
               width: double.infinity,
               child: Column(
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     'Digite o email cadastrado',
                     style: AppTextStyles.notSoSmallText

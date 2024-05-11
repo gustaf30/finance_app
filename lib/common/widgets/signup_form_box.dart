@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';

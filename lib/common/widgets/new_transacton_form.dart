@@ -65,32 +65,20 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.beige1,
-        borderRadius: BorderRadius.all(Radius.circular(28)),
-      ),
-      margin: const EdgeInsets.only(top: 70, bottom: 50, left: 50, right: 50),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: AppColors.beige1,
-              borderRadius: BorderRadius.all(Radius.circular(28)),
-            ),
-            margin: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-            ),
-            child: Column(
+      margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 50),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.beige1,
+          borderRadius: BorderRadius.all(Radius.circular(28)),
+        ),
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                    left: 12,
-                    right: 12,
-                    bottom: 12,
-                  ),
+                  padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
                     controller: _valueController,
                     keyboardType: TextInputType.number,
@@ -189,8 +177,8 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

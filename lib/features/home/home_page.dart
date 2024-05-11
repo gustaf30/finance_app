@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        const SizedBox(width: 100),
+                        const SizedBox(width: 60),
                         Column(
                           children: [
                             Row(
@@ -148,91 +148,92 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              height: 400, // Ajuste a altura conforme necessário
+              height: 350, // Ajuste a altura conforme necessário
               width: double.infinity, // Ocupar toda a largura disponível
-              child: Center(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        'Histórico de transações',
-                        style: AppTextStyles.notSoSmallText
-                            .copyWith(color: AppColors.darkBlue1),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'iFood',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                            Text(
-                              'Hoje',
-                              style: AppTextStyles.smallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '- R\$ 50,00',
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          'Histórico de transações',
                           style: AppTextStyles.notSoSmallText
-                              .copyWith(color: Colors.red),
+                              .copyWith(color: AppColors.darkBlue1),
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                'iFood',
+                                style: AppTextStyles.notSoSmallText
+                                    .copyWith(color: AppColors.darkBlue1),
+                              ),
+                              Text(
+                                'Hoje',
+                                style: AppTextStyles.smallText
+                                    .copyWith(color: AppColors.darkBlue1),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            '- R\$ 50,00',
+                            style: AppTextStyles.notSoSmallText
+                                .copyWith(color: Colors.red),
+                          ),
+                        ],
+                      ),
+                        // Os outros itens do histórico de transações aqui
+                        Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
                           children: [
                             Text(
-                              'Pix',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
+                            'Pix',
+                            style: AppTextStyles.notSoSmallText
+                              .copyWith(color: AppColors.darkBlue1),
                             ),
                             Text(
-                              '11/04/2024',
-                              style: AppTextStyles.smallText
-                                  .copyWith(color: AppColors.darkBlue1),
+                            '11/04/2024',
+                            style: AppTextStyles.smallText
+                              .copyWith(color: AppColors.darkBlue1),
                             ),
                           ],
-                        ),
-                        Text(
+                          ),
+                          Text(
                           '+ R\$ 21,00',
                           style: AppTextStyles.notSoSmallText
-                              .copyWith(color: Colors.green),
+                            .copyWith(color: Colors.green),
+                          ),
+                        ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
+                        Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
                           children: [
                             Text(
-                              'Uber',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
+                            'Uber',
+                            style: AppTextStyles.notSoSmallText
+                              .copyWith(color: AppColors.darkBlue1),
                             ),
                             Text(
-                              '09/04/2024',
-                              style: AppTextStyles.smallText
-                                  .copyWith(color: AppColors.darkBlue1),
+                            '09/04/2024',
+                            style: AppTextStyles.smallText
+                              .copyWith(color: AppColors.darkBlue1),
                             ),
                           ],
-                        ),
-                        Text(
+                          ),
+                          Text(
                           '- R\$ 12,00',
                           style: AppTextStyles.notSoSmallText
-                              .copyWith(color: Colors.red),
-                        ),
-                      ],
-                    ),
-                    Row(
+                            .copyWith(color: Colors.red),
+                          ),
+                        ],
+                        ), Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
@@ -327,8 +328,9 @@ class _HomePageState extends State<HomePage> {
                               .copyWith(color: Colors.red),
                         ),
                       ],
-                    ),
-                  ],
+                    ),    
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -361,14 +363,16 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const NewTransactionPage()),
+                builder: (context) => const NewTransactionPage(),
+              ),
             );
           }
           if (index == 2) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProfilePage()),
+                builder: (context) => const ProfilePage(),
+              ),
             );
           }
         },

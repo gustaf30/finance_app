@@ -8,6 +8,7 @@ class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }
 
