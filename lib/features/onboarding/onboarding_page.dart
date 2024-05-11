@@ -32,7 +32,7 @@ class OnboardingPage extends StatelessWidget {
             style: AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
           ),
           Text(
-            'with budget!',
+            'with budgy!',
             style: AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
           ),
           Padding(
