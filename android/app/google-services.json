@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "15333055717",
+    "project_id": "finance-db-utfpr-423018",
+    "storage_bucket": "finance-db-utfpr-423018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15333055717:android:9c55ceafce213e8f69080c",
+        "android_client_info": {
+          "package_name": "com.gusta.budgy.finance_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6EFp5-TIV-ZnzBeUqksCIIg-Fdk9JBxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
