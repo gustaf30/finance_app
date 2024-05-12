@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 
 class NewTransactionPage extends StatefulWidget {
   final FirebaseFirestore firestore;
-  const NewTransactionPage({super.key, required this.firestore});
+  final String userEmail;
+  const NewTransactionPage({super.key, required this.firestore, required this.userEmail});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -41,7 +42,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: NewTransactionForm(firestore: widget.firestore),
+        child: NewTransactionForm(firestore: widget.firestore, userEmail: widget.userEmail),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.beige1,
@@ -68,13 +69,13 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore)),
+              MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore, userEmail: widget.userEmail)),
             );
           }
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
+              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail)),
             );
           }
         },

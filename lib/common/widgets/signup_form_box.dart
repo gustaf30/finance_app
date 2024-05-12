@@ -72,7 +72,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
       // Navega para a tela de perfil após criar o usuário com sucesso
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
+        MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: _email)),
       );
     } catch (e) {
       print('Erro ao salvar usuário: $e');

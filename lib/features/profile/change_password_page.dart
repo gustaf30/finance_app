@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   final FirebaseFirestore firestore;
-  const ChangePasswordPage({super.key, required this.firestore});
+  final String userEmail;
+  const ChangePasswordPage({super.key, required this.firestore, required this.userEmail});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -58,7 +59,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SuccessPasswordPage(firestore: widget.firestore)),
+        MaterialPageRoute(builder: (context) => SuccessPasswordPage(firestore: widget.firestore, userEmail: widget.userEmail)),
       );
     }
   }
