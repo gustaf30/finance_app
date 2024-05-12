@@ -3,6 +3,7 @@ import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
 import 'package:finance_app/features/profile/success_password_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     _newPasswordController = TextEditingController();
   }
 
-  void _changePassword() {
+  Future<void> _changePassword() async {
     if (_currentPasswordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -57,10 +58,33 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       );
       return;
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SuccessPasswordPage(firestore: widget.firestore, userEmail: widget.userEmail)),
-      );
+      try{
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: widget.userEmail,
+          password: _currentPasswordController.text,
+        );
+        await userCredential.user!.updatePassword(_newPasswordController.text);
+        await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).update({
+          'db_senha': _newPasswordController.text,
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Senha alterada com sucesso!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SuccessPasswordPage(firestore: widget.firestore, userEmail: widget.userEmail)),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Erro ao alterar a senha!'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
