@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class ChangeNamePage extends StatefulWidget {
   final FirebaseFirestore firestore;
-  const ChangeNamePage({super.key, required this.firestore});
+  final String userEmail;
+  const ChangeNamePage({super.key, required this.firestore, required this.userEmail});
 
   @override
   State<ChangeNamePage> createState() => _ChangeNamePageState();
@@ -28,7 +29,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SuccessNamePage(firestore: widget.firestore)),
+        MaterialPageRoute(builder: (context) => SuccessNamePage(firestore: widget.firestore, userEmail: widget.userEmail)),
       );
     }
   }

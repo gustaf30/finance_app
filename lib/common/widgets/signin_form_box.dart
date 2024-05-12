@@ -77,7 +77,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
           MaterialPageRoute(
               builder: (context) => HomePage(
                     firestore: widget.firestore,
-                    userEmail: email,
+                    userEmail: email
                   )
                 ),
         );

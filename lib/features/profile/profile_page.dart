@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
   final FirebaseFirestore firestore;
-  const ProfilePage({super.key, required this.firestore});
+  final String userEmail;
+  const ProfilePage({super.key, required this.firestore, required this.userEmail});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -80,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ChangeNamePage(firestore: widget.firestore)),
+                          MaterialPageRoute(builder: (context) => ChangeNamePage(firestore: widget.firestore, userEmail: widget.userEmail)),
                         );
                       },
                       child: const Row(
@@ -100,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ChangePasswordPage(firestore: widget.firestore)),
+                          MaterialPageRoute(builder: (context) => ChangePasswordPage(firestore: widget.firestore, userEmail: widget.userEmail)),
                         );
                       },
                       child: const Row(
@@ -168,13 +169,13 @@ class _ProfilePageState extends State<ProfilePage> {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  HomePage(firestore: widget.firestore)),
+              MaterialPageRoute(builder: (context) =>  HomePage(firestore: widget.firestore, userEmail: widget.userEmail)),
             );
           }
           if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NewTransactionPage(firestore: widget.firestore)),
+              MaterialPageRoute(builder: (context) => NewTransactionPage(firestore: widget.firestore, userEmail: widget.userEmail)),
             );
           }
         },

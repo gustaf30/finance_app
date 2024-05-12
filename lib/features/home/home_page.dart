@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    NewTransactionPage(firestore: widget.firestore),
+                    NewTransactionPage(firestore: widget.firestore, userEmail: widget.userEmail),
               ),
             );
           }
@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProfilePage(firestore: widget.firestore),
+                builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail),
               ),
             );
           }

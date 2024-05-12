@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class SuccessNamePage extends StatefulWidget {
   final FirebaseFirestore firestore;
-  const SuccessNamePage({super.key, required this.firestore});
+  final String userEmail;
+  const SuccessNamePage({super.key, required this.firestore, required this.userEmail});
 
   @override
   State<SuccessNamePage> createState() => _SuccessNamePageState();
@@ -30,7 +31,7 @@ class _SuccessNamePageState extends State<SuccessNamePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
+              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail)),
             );
           },
         ),
@@ -67,7 +68,7 @@ class _SuccessNamePageState extends State<SuccessNamePage> {
                 child: PrimaryButton(text: 'Voltar ao perfil', onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
+                    MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail)),
                   );
                 }),
               )
