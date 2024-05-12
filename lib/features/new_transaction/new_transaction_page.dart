@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/new_transacton_form.dart';
@@ -6,7 +7,8 @@ import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class NewTransactionPage extends StatefulWidget {
-  const NewTransactionPage({super.key});
+  final FirebaseFirestore firestore;
+  const NewTransactionPage({super.key, required this.firestore});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -39,7 +41,7 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: const NewTransactionForm(),
+        child: NewTransactionForm(firestore: widget.firestore),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.beige1,
@@ -66,13 +68,13 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore)),
             );
           }
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ProfilePage()),
+              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
             );
           }
         },

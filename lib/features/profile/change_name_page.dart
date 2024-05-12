@@ -2,10 +2,12 @@ import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
 import 'package:finance_app/features/profile/success_name_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChangeNamePage extends StatefulWidget {
-  const ChangeNamePage({super.key});
+  final FirebaseFirestore firestore;
+  const ChangeNamePage({super.key, required this.firestore});
 
   @override
   State<ChangeNamePage> createState() => _ChangeNamePageState();
@@ -26,7 +28,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SuccessNamePage()),
+        MaterialPageRoute(builder: (context) => SuccessNamePage(firestore: widget.firestore)),
       );
     }
   }

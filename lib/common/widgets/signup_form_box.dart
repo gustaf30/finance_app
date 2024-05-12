@@ -55,7 +55,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
 
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ProfilePage()),
+        MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
       );
     } catch (e) {
       print('Erro ao salvar usuário: $e');
@@ -155,7 +155,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SignInPage()),
+                            builder: (context) => SignInPage(firestore: widget.firestore,)),
                       );
                     },
                     child: const Text(

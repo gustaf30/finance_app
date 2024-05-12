@@ -2,6 +2,8 @@ import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/features/new_transaction/new_transaction_page.dart';
 import 'package:finance_app/features/profile/profile_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -14,7 +16,8 @@ class Transaction {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final FirebaseFirestore firestore;
+  const HomePage({super.key, required this.firestore});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,7 +34,6 @@ class _HomePageState extends State<HomePage> {
     Transaction(title: 'Pix', amount: 21.0, date: DateTime(2024, 4, 11)),
     Transaction(title: 'Uber', amount: -12.0, date: DateTime(2024, 4, 9)),
     Transaction(title: 'Salário', amount: 1800.0, date: DateTime(2024, 4, 8)),
-    // Adicione outras transações conforme necessário
   ];
 
   @override
@@ -243,7 +245,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const NewTransactionPage(),
+                builder: (context) => NewTransactionPage(firestore: widget.firestore),
               ),
             );
           }
@@ -251,7 +253,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProfilePage(),
+                builder: (context) => ProfilePage(firestore: widget.firestore),
               ),
             );
           }

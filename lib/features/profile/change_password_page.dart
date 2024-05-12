@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
@@ -5,7 +6,8 @@ import 'package:finance_app/features/profile/success_password_page.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({super.key});
+  final FirebaseFirestore firestore;
+  const ChangePasswordPage({super.key, required this.firestore});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -56,7 +58,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SuccessPasswordPage()),
+        MaterialPageRoute(builder: (context) => SuccessPasswordPage(firestore: widget.firestore)),
       );
     }
   }

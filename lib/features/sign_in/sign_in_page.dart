@@ -1,11 +1,12 @@
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../common/constants/app_colors.dart';
 import '../../common/widgets/signin_form_box.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+  final FirebaseFirestore firestore;
+  const SignInPage({super.key, required this.firestore});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class SignInPage extends StatelessWidget {
               color: AppColors.beige1,
               size: 50.0,
             ),
-            const SignInFormBox(),
+            SignInFormBox(firestore: firestore,),
           ],
         ),
       ),

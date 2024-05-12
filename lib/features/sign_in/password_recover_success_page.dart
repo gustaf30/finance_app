@@ -5,9 +5,11 @@ import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
 import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PasswordRecoverSuccessPage extends StatefulWidget {
-  const PasswordRecoverSuccessPage({super.key});
+  final FirebaseFirestore firestore;
+  const PasswordRecoverSuccessPage({super.key, required this.firestore});
 
   @override
   _PasswordRecoverSuccessPageState createState() => _PasswordRecoverSuccessPageState();
@@ -67,7 +69,7 @@ class _PasswordRecoverSuccessPageState extends State<PasswordRecoverSuccessPage>
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                          MaterialPageRoute(builder: (context) => SignInPage(firestore: widget.firestore)),
                         );
                     }),
                   ),

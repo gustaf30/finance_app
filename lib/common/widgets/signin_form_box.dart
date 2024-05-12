@@ -4,9 +4,11 @@ import 'package:finance_app/features/home/home_page.dart';
 import 'package:finance_app/features/sign_in/password_recover_page.dart';
 import 'package:finance_app/features/sign_up/sign_up_page.dart';
 import 'primary_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignInFormBox extends StatefulWidget {
-  const SignInFormBox({super.key});
+  final FirebaseFirestore firestore;
+  const SignInFormBox({super.key, required this.firestore});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -47,7 +49,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore)),
       );
     }
   }
@@ -117,7 +119,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()),
+                        MaterialPageRoute(builder: (context) => SignUpPage(firestore: widget.firestore)),
                       );
                     },
                     child: const Text(
@@ -133,7 +135,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PasswordRecoverPage()),
+                            builder: (context) => PasswordRecoverPage(firestore: widget.firestore)),
                       );
                     },
                     child: const Text(

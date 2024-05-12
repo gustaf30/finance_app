@@ -2,10 +2,12 @@ import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
 import 'package:finance_app/features/profile/profile_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SuccessNamePage extends StatefulWidget {
-  const SuccessNamePage({super.key});
+  final FirebaseFirestore firestore;
+  const SuccessNamePage({super.key, required this.firestore});
 
   @override
   State<SuccessNamePage> createState() => _SuccessNamePageState();
@@ -28,7 +30,7 @@ class _SuccessNamePageState extends State<SuccessNamePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ProfilePage()),
+              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
             );
           },
         ),
@@ -65,7 +67,7 @@ class _SuccessNamePageState extends State<SuccessNamePage> {
                 child: PrimaryButton(text: 'Voltar ao perfil', onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProfilePage()),
+                    MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
                   );
                 }),
               )

@@ -2,10 +2,12 @@ import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
 import 'package:finance_app/features/profile/profile_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SuccessPasswordPage extends StatefulWidget {
-  const SuccessPasswordPage({super.key});
+  final FirebaseFirestore firestore;
+  const SuccessPasswordPage({super.key, required this.firestore});
 
   @override
   State<SuccessPasswordPage> createState() => _SuccessPasswordPageState();
@@ -28,7 +30,7 @@ class _SuccessPasswordPageState extends State<SuccessPasswordPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ProfilePage()),
+              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
             );
           },
         ),
@@ -65,7 +67,7 @@ class _SuccessPasswordPageState extends State<SuccessPasswordPage> {
                 child: PrimaryButton(text: 'Voltar ao perfil', onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ProfilePage()),
+                    MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
                   );
                 }),
               )

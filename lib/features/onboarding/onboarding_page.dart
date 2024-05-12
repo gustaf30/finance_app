@@ -44,7 +44,7 @@ class OnboardingPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SignUpPage(firestore: firestore)),
+                MaterialPageRoute(builder: (context) => SignUpPage(firestore: firestore)),
                 );
               },
             ),
@@ -53,7 +53,7 @@ class OnboardingPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SignInPage()),
+                MaterialPageRoute(builder: (context) => SignInPage(firestore: firestore)),
               );
             },
             child: Text(

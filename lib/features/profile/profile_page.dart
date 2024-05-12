@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/features/home/home_page.dart';
@@ -8,7 +9,8 @@ import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final FirebaseFirestore firestore;
+  const ProfilePage({super.key, required this.firestore});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -78,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ChangeNamePage()),
+                          MaterialPageRoute(builder: (context) => ChangeNamePage(firestore: widget.firestore)),
                         );
                       },
                       child: const Row(
@@ -98,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ChangePasswordPage()),
+                          MaterialPageRoute(builder: (context) => ChangePasswordPage(firestore: widget.firestore)),
                         );
                       },
                       child: const Row(
@@ -118,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                          MaterialPageRoute(builder: (context) => SignInPage(firestore: widget.firestore)),
                         );
                       },
                       child: const Row(
@@ -166,13 +168,13 @@ class _ProfilePageState extends State<ProfilePage> {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) =>  HomePage(firestore: widget.firestore)),
             );
           }
           if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const NewTransactionPage()),
+              MaterialPageRoute(builder: (context) => NewTransactionPage(firestore: widget.firestore)),
             );
           }
         },

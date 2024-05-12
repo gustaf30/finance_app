@@ -1,11 +1,13 @@
 import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/features/home/home_page.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import 'primary_button.dart';
 
 class NewTransactionForm extends StatefulWidget {
-  const NewTransactionForm({super.key});
+  final FirebaseFirestore firestore;
+  const NewTransactionForm({super.key, required this.firestore});
 
   @override
   State<NewTransactionForm> createState() => _NewTransactionFormState();
@@ -48,7 +50,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
       );
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore)),
       );
     }
   }
