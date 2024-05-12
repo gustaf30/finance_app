@@ -3,6 +3,15 @@ import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/features/new_transaction/new_transaction_page.dart';
 import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class Transaction {
+  final String title;
+  final double amount;
+  final DateTime date;
+
+  Transaction({required this.title, required this.amount, required this.date});
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +22,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  double saldo = 1000.0;
+  double renda = 1800.0;
+  double despesas = 800.0;
+
+  List<Transaction> transactions = [
+    Transaction(title: 'iFood', amount: -50.0, date: DateTime.now()),
+    Transaction(title: 'Pix', amount: 21.0, date: DateTime(2024, 4, 11)),
+    Transaction(title: 'Uber', amount: -12.0, date: DateTime(2024, 4, 9)),
+    Transaction(title: 'Salário', amount: 1800.0, date: DateTime(2024, 4, 8)),
+    // Adicione outras transações conforme necessário
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                               .copyWith(color: AppColors.beige1),
                         ),
                         Text(
-                          'R\$ 1.000,00',
+                          'R\$ $saldo',
                           style: AppTextStyles.notSoMediumText
                               .copyWith(color: AppColors.beige1),
                         ),
@@ -105,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             Text(
-                              'R\$ 1.800,00',
+                              'R\$ $renda',
                               style: AppTextStyles.notSoSmallText
                                   .copyWith(color: AppColors.beige1),
                             ),
@@ -129,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             Text(
-                              'R\$ 800,00',
+                              'R\$ $despesas',
                               style: AppTextStyles.notSoSmallText
                                   .copyWith(color: AppColors.beige1),
                             ),
@@ -151,188 +171,48 @@ class _HomePageState extends State<HomePage> {
               height: 350, // Ajuste a altura conforme necessário
               width: double.infinity, // Ocupar toda a largura disponível
               child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          'Histórico de transações',
-                          style: AppTextStyles.notSoSmallText
-                              .copyWith(color: AppColors.darkBlue1),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      child: Column(
                         children: [
-                          Column(
-                            children: [
-                              Text(
-                                'iFood',
-                                style: AppTextStyles.notSoSmallText
-                                    .copyWith(color: AppColors.darkBlue1),
-                              ),
-                              Text(
-                                'Hoje',
-                                style: AppTextStyles.smallText
-                                    .copyWith(color: AppColors.darkBlue1),
-                              ),
-                            ],
+                          ListTile(
+                            title: Text(
+                              'Histórico de transações',
+                              style: AppTextStyles.notSoSmallText
+                                  .copyWith(color: AppColors.darkBlue1),
+                            ),
                           ),
-                          Text(
-                            '- R\$ 50,00',
-                            style: AppTextStyles.notSoSmallText
-                                .copyWith(color: Colors.red),
+                          Column(
+                            children: transactions.map((transaction) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        transaction.title,
+                                        style: AppTextStyles.notSoSmallText
+                                            .copyWith(color: AppColors.darkBlue1),
+                                      ),
+                                      Text(
+                                        DateFormat('dd/MM/yyyy').format(transaction.date),
+                                        style: AppTextStyles.smallText
+                                            .copyWith(color: AppColors.darkBlue1),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    '${transaction.amount > 0 ? '+' : ''} R\$ ${transaction.amount.toStringAsFixed(2)}',
+                                    style: AppTextStyles.notSoSmallText.copyWith(
+                                        color: transaction.amount > 0
+                                            ? Colors.green
+                                            : Colors.red),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
                           ),
                         ],
                       ),
-                        // Os outros itens do histórico de transações aqui
-                        Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                          children: [
-                            Text(
-                            'Pix',
-                            style: AppTextStyles.notSoSmallText
-                              .copyWith(color: AppColors.darkBlue1),
-                            ),
-                            Text(
-                            '11/04/2024',
-                            style: AppTextStyles.smallText
-                              .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ],
-                          ),
-                          Text(
-                          '+ R\$ 21,00',
-                          style: AppTextStyles.notSoSmallText
-                            .copyWith(color: Colors.green),
-                          ),
-                        ],
-                        ),
-                        Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                          children: [
-                            Text(
-                            'Uber',
-                            style: AppTextStyles.notSoSmallText
-                              .copyWith(color: AppColors.darkBlue1),
-                            ),
-                            Text(
-                            '09/04/2024',
-                            style: AppTextStyles.smallText
-                              .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ],
-                          ),
-                          Text(
-                          '- R\$ 12,00',
-                          style: AppTextStyles.notSoSmallText
-                            .copyWith(color: Colors.red),
-                          ),
-                        ],
-                        ), Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'Pix',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                            Text(
-                              '09/04/2024',
-                              style: AppTextStyles.smallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '+ R\$ 10,00',
-                          style: AppTextStyles.notSoSmallText
-                              .copyWith(color: Colors.green),
-                        ),
-                      ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'Pix',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                            Text(
-                              '08/04/2024',
-                              style: AppTextStyles.smallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '+ R\$ 4,00',
-                          style: AppTextStyles.notSoSmallText
-                              .copyWith(color: Colors.green),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'Restaurante',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                            Text(
-                              '06/04/2024',
-                              style: AppTextStyles.smallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '- R\$ 22,90',
-                          style: AppTextStyles.notSoSmallText
-                              .copyWith(color: Colors.red),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'Aluguel',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                            Text(
-                              '05/04/2024',
-                              style: AppTextStyles.smallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '- R\$ 720,00',
-                          style: AppTextStyles.notSoSmallText
-                              .copyWith(color: Colors.red),
-                        ),
-                      ],
-                    ),    
-                    ],
-                  ),
-                ),
-              ),
             ),
           ],
         ),
