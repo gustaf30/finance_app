@@ -54,14 +54,12 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
         password: _senha,
       );
 
-      // Após criar o usuário com sucesso, armazena informações adicionais no Firestore
       await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).set({
         'db_nome': _nome,
         'db_senha': _senha,
         'db_email': _email,
       });
 
-      // Cria uma subcoleção de transações para o novo usuário
       await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).collection('transacoes').doc().set({
         'categoria': ' ',
         'data': DateTime.now(),
