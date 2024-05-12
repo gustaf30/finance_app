@@ -3,12 +3,13 @@
 import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../constants/app_colors.dart';
 import 'primary_button.dart';
 
 class SignUpFormBox extends StatefulWidget {
-  const SignUpFormBox({super.key});
+  final FirebaseFirestore firestore;
+  const SignUpFormBox({super.key, required this.firestore});
 
   @override
   _SignUpFormBoxState createState() => _SignUpFormBoxState();
@@ -20,37 +21,54 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
   late String _senha = '';
   late String _senha2 = '';
 
-  void _signUp() {
-    bool isEmailValid = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z.]+$').hasMatch(_email);
+ void _signUp() async {
+  bool isEmailValid = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z.]+$').hasMatch(_email);
 
-    if (_nome == '' || _email == '' || _senha == '' || _senha2 == '') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, preencha todos os campos'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else if (_senha != _senha2) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('As senhas não coincidem!'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else if (!isEmailValid) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, insira um email válido!'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      } else {
+  if (_nome == '' || _email == '' || _senha == '' || _senha2 == '') {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, preencha todos os campos'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else if (_senha != _senha2) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('As senhas não coincidem!'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else if (!isEmailValid) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, insira um email válido!'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else {
+    try {
+      await widget.firestore.collection('usuarios').doc(_email).set({
+        'nome': _nome,
+        'email': _email,
+        'senha': _senha,
+      });
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ProfilePage()),
       );
+    } catch (e) {
+      print('Erro ao salvar usuário: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao salvar usuário. Tente novamente mais tarde.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +78,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
           color: AppColors.beige1,
           borderRadius: BorderRadius.all(Radius.circular(28)),
         ),
-        margin: const EdgeInsets.only(top: 30, bottom: 50, left: 50, right: 50),
+        margin: const EdgeInsets.only(top: 30, bottom: 100, left: 50, right: 50),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -70,7 +88,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
                 borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
               margin:
-                  const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 0),
+                  const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 0),
               child: Column(
                 children: [
                   Padding(
@@ -143,7 +161,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
                     child: const Text(
                       'Já tenho uma conta',
                       style: TextStyle(
-                        color: AppColors.lightBlue2,
+                        color: Color.fromARGB(255, 9, 10, 12),
                       ),
                     ),
                   ),

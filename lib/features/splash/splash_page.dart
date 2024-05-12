@@ -4,10 +4,11 @@ import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/features/onboarding/onboarding_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SplashPage extends StatelessWidget {
-  const SplashPage({super.key});
+  final FirebaseFirestore firestore;
+  const SplashPage({super.key, required this.firestore});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class SplashPage extends StatelessWidget {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => OnboardingPage(),
+          builder: (context) => OnboardingPage(firestore: firestore),
         ),
       );
     });

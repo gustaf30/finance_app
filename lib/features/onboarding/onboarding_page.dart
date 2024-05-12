@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/features/sign_in/sign_in_page.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 import '../../common/widgets/primary_button.dart';
 
 class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({super.key});
+  final FirebaseFirestore firestore;
+  const OnboardingPage({super.key, required this.firestore});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class OnboardingPage extends StatelessWidget {
             style: AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
           ),
           Text(
-            'with budget!',
+            'with budgy!',
             style: AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
           ),
           Padding(
@@ -42,7 +44,7 @@ class OnboardingPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SignUpPage()),
+                MaterialPageRoute(builder: (context) => const SignUpPage(firestore: firestore)),
                 );
               },
             ),

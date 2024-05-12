@@ -1,13 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/signup_form_box.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../common/constants/app_colors.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+  final FirebaseFirestore firestore;
+  const SignUpPage({super.key, required this.firestore});
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +27,20 @@ class SignUpPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            SizedBox(height: 50),
+            SizedBox(height: 80),
             Text(
               'budgy',
               style: AppTextStyles.mediumText.copyWith(
                 color: AppColors.beige1,
               )
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             Icon(
               Icons.person_rounded,
               color: AppColors.beige1,
               size: 50.0,
             ),
-            SignUpFormBox(),
+            SignUpFormBox(firestore: FirebaseFirestore.instance,),
           ],
         ),
       ),
