@@ -3,6 +3,7 @@ import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/primary_button.dart';
 import 'package:finance_app/features/profile/success_name_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChangeNamePage extends StatefulWidget {
@@ -17,7 +18,7 @@ class ChangeNamePage extends StatefulWidget {
 class _ChangeNamePageState extends State<ChangeNamePage> {
   final _nameController = TextEditingController();
 
-  void _changeName() {
+  Future<void> _changeName() async{
     if (_nameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -27,10 +28,23 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
       );
       return;
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SuccessNamePage(firestore: widget.firestore, userEmail: widget.userEmail)),
-      );
+      try {
+        await widget.firestore.collection('usuarios').doc(FirebaseAuth.instance.currentUser!.uid).update({
+          'db_nome': _nameController.text,
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SuccessNamePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+        );
+      } catch (error) {
+        print('Erro ao atualizar o nome do usuário: $error');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Erro ao atualizar o nome do usuário'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
