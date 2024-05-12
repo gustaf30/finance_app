@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/common/widgets/signup_form_box.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../common/constants/app_colors.dart';
 
 class SignUpPage extends StatelessWidget {

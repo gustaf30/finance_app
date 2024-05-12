@@ -6,12 +6,14 @@ import 'package:finance_app/features/new_transaction/new_transaction_page.dart';
 import 'package:finance_app/features/profile/change_name_page.dart';
 import 'package:finance_app/features/profile/change_password_page.dart';
 import 'package:finance_app/features/sign_in/sign_in_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String userEmail;
-  const ProfilePage({super.key, required this.firestore, required this.userEmail});
+  const ProfilePage(
+      {super.key, required this.firestore, required this.userEmail});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -19,6 +21,33 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int _selectedIndex = 2;
+  String _userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
+  void getUserName() async {
+    try {
+      DocumentSnapshot userDoc = await widget.firestore
+          .collection('usuarios')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        print('Dados do usuário: $userData');
+        setState(() {
+          _userName = userData['db_nome'];
+        });
+      } else {
+        print('Documento do usuário não encontrado');
+      }
+    } catch (e) {
+      print('Erro ao buscar nome do usuário: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text(
           'Perfil',
-          style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.darkBlue2),
+          style: AppTextStyles.notSoMediumText
+              .copyWith(color: AppColors.darkBlue2),
         ),
         centerTitle: true,
         backgroundColor: AppColors.beige1,
@@ -58,12 +88,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Text(
-                'Usuário da Silva',
-                style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.beige1),
+                _userName,
+                style: AppTextStyles.notSoMediumText
+                    .copyWith(color: AppColors.beige1),
               ),
               Text(
-                'usuario@email.com.br',
-                style: AppTextStyles.notSoSmallText.copyWith(color: AppColors.beige1),
+                widget.userEmail,
+                style: AppTextStyles.notSoSmallText
+                    .copyWith(color: AppColors.beige1),
               ),
               const SizedBox(height: 30),
               Container(
@@ -71,7 +103,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: AppColors.beige1,
                   borderRadius: BorderRadius.all(Radius.circular(28)),
                 ),
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20), // Ajuste as margens aqui
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 20), // Ajuste as margens aqui
                 height: 200, // Ajuste a altura conforme necessário
                 width: double.infinity,
                 child: Column(
@@ -81,7 +114,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ChangeNamePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+                          MaterialPageRoute(
+                              builder: (context) => ChangeNamePage(
+                                  firestore: widget.firestore,
+                                  userEmail: widget.userEmail)),
                         );
                       },
                       child: const Row(
@@ -101,7 +137,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ChangePasswordPage(firestore: widget.firestore, userEmail: widget.userEmail)),
+                          MaterialPageRoute(
+                              builder: (context) => ChangePasswordPage(
+                                  firestore: widget.firestore,
+                                  userEmail: widget.userEmail)),
                         );
                       },
                       child: const Row(
@@ -121,7 +160,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SignInPage(firestore: widget.firestore)),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SignInPage(firestore: widget.firestore)),
                         );
                       },
                       child: const Row(
@@ -139,7 +180,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 33), // Adiciona margem abaixo do contêiner com as opções
+              const SizedBox(
+                  height:
+                      33), // Adiciona margem abaixo do contêiner com as opções
             ],
           ),
         ),
@@ -169,13 +212,19 @@ class _ProfilePageState extends State<ProfilePage> {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  HomePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+              MaterialPageRoute(
+                  builder: (context) => HomePage(
+                      firestore: widget.firestore,
+                      userEmail: widget.userEmail)),
             );
           }
           if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NewTransactionPage(firestore: widget.firestore, userEmail: widget.userEmail)),
+              MaterialPageRoute(
+                  builder: (context) => NewTransactionPage(
+                      firestore: widget.firestore,
+                      userEmail: widget.userEmail)),
             );
           }
         },
