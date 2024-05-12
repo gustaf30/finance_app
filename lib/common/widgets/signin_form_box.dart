@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import 'package:finance_app/features/home/home_page.dart';
@@ -16,6 +17,7 @@ class SignInFormBox extends StatefulWidget {
 }
 
 class _SignInFormBoxState extends State<SignInFormBox> {
+  final _auth = FirebaseAuth.instance;
   bool _showPassword = false;
   late String _email = '';
   late String _senha = '';
@@ -26,7 +28,21 @@ class _SignInFormBoxState extends State<SignInFormBox> {
     });
   }
 
-  void _signIn() {
+  void getUserData(String email) async {
+    try {
+      DocumentSnapshot userDoc = await widget.firestore.collection('usuarios').doc(email).get();
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        print('Dados do usuário: $userData');
+      } else {
+        print('Documento do usuário não encontrado');
+      }
+    } catch (e) {
+      print('Erro ao buscar dados do usuário: $e');
+    }
+  }
+
+  void _signIn(String email, String senha, BuildContext context) async {
     bool isEmailValid = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z.]+$').hasMatch(_email);
 
     if (!isEmailValid) {
@@ -37,7 +53,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
         ),
       );
       return;
-    } 
+    }
     if (_senha.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -47,10 +63,33 @@ class _SignInFormBoxState extends State<SignInFormBox> {
       );
       return;
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore)),
-      );
+      print('Email: $email');
+      print('Senha: $senha');
+      try {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: senha,
+        );
+        getUserData(email);
+        // Login bem-sucedido, navegue para a tela principal
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    firestore: widget.firestore,
+                    userEmail: email,
+                  )
+                ),
+        );
+      } catch (e) {
+        // Exiba uma mensagem de erro se o login falhar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao fazer login: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -62,7 +101,8 @@ class _SignInFormBoxState extends State<SignInFormBox> {
           color: AppColors.beige1,
           borderRadius: BorderRadius.all(Radius.circular(28)),
         ),
-        margin: const EdgeInsets.only(top: 80, bottom: 100, left: 50, right: 50),
+        margin:
+            const EdgeInsets.only(top: 80, bottom: 100, left: 50, right: 50),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -71,7 +111,8 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                 color: AppColors.beige1,
                 borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
-              margin: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 0),
+              margin: const EdgeInsets.only(
+                  top: 30, left: 20, right: 20, bottom: 0),
               child: Column(
                 children: [
                   Padding(
@@ -111,7 +152,9 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                         top: 16.0, bottom: 15.0, left: 16.0, right: 16.0),
                     child: PrimaryButton(
                       text: 'Entrar',
-                      onPressed: _signIn,
+                      onPressed: () {
+                        _signIn(_email, _senha, context);
+                      },
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -119,7 +162,9 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpPage(firestore: widget.firestore)),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SignUpPage(firestore: widget.firestore)),
                       );
                     },
                     child: const Text(
@@ -135,7 +180,8 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PasswordRecoverPage(firestore: widget.firestore)),
+                            builder: (context) => PasswordRecoverPage(
+                                firestore: widget.firestore)),
                       );
                     },
                     child: const Text(

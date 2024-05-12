@@ -2,6 +2,7 @@
 
 import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:finance_app/features/sign_in/sign_in_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../constants/app_colors.dart';
@@ -24,7 +25,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
  void _signUp() async {
   bool isEmailValid = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z.]+$').hasMatch(_email);
 
-  if (_nome == '' || _email == '' || _senha == '' || _senha2 == '') {
+  if (_nome.isEmpty || _email.isEmpty || _senha.isEmpty || _senha2.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Por favor, preencha todos os campos'),
@@ -47,12 +48,28 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
     );
   } else {
     try {
-      await widget.firestore.collection('usuarios').doc(_email).set({
-        'nome': _nome,
-        'email': _email,
-        'senha': _senha,
+      // Cria o usuário no Firebase Authentication
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _email,
+        password: _senha,
+      );
+
+      // Após criar o usuário com sucesso, armazena informações adicionais no Firestore
+      await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).set({
+        'db_nome': _nome,
+        'db_senha': _senha,
+        'db_email': _email,
       });
 
+      // Cria uma subcoleção de transações para o novo usuário
+      await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).collection('transacoes').doc().set({
+        'categoria': ' ',
+        'data': DateTime.now(),
+        'despeza': true,
+        'valor': 0.0,
+      });
+
+      // Navega para a tela de perfil após criar o usuário com sucesso
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore)),
@@ -68,6 +85,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
     }
   }
 }
+
 
 
   @override

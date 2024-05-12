@@ -17,7 +17,8 @@ class Transaction {
 
 class HomePage extends StatefulWidget {
   final FirebaseFirestore firestore;
-  const HomePage({super.key, required this.firestore});
+  final String userEmail;
+  const HomePage({super.key, required this.firestore, required this.userEmail});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -173,48 +174,49 @@ class _HomePageState extends State<HomePage> {
               height: 350, // Ajuste a altura conforme necessário
               width: double.infinity, // Ocupar toda a largura disponível
               child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              'Histórico de transações',
-                              style: AppTextStyles.notSoSmallText
-                                  .copyWith(color: AppColors.darkBlue1),
-                            ),
-                          ),
-                          Column(
-                            children: transactions.map((transaction) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        transaction.title,
-                                        style: AppTextStyles.notSoSmallText
-                                            .copyWith(color: AppColors.darkBlue1),
-                                      ),
-                                      Text(
-                                        DateFormat('dd/MM/yyyy').format(transaction.date),
-                                        style: AppTextStyles.smallText
-                                            .copyWith(color: AppColors.darkBlue1),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    '${transaction.amount > 0 ? '+' : ''} R\$ ${transaction.amount.toStringAsFixed(2)}',
-                                    style: AppTextStyles.notSoSmallText.copyWith(
-                                        color: transaction.amount > 0
-                                            ? Colors.green
-                                            : Colors.red),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ],
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        'Histórico de transações',
+                        style: AppTextStyles.notSoSmallText
+                            .copyWith(color: AppColors.darkBlue1),
                       ),
                     ),
+                    Column(
+                      children: transactions.map((transaction) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  transaction.title,
+                                  style: AppTextStyles.notSoSmallText
+                                      .copyWith(color: AppColors.darkBlue1),
+                                ),
+                                Text(
+                                  DateFormat('dd/MM/yyyy')
+                                      .format(transaction.date),
+                                  style: AppTextStyles.smallText
+                                      .copyWith(color: AppColors.darkBlue1),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '${transaction.amount > 0 ? '+' : ''} R\$ ${transaction.amount.toStringAsFixed(2)}',
+                              style: AppTextStyles.notSoSmallText.copyWith(
+                                  color: transaction.amount > 0
+                                      ? Colors.green
+                                      : Colors.red),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -245,7 +247,8 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NewTransactionPage(firestore: widget.firestore),
+                builder: (context) =>
+                    NewTransactionPage(firestore: widget.firestore),
               ),
             );
           }
