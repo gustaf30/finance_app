@@ -65,7 +65,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
           'db_saldo': 0.0,
         });
 
-      DocumentReference newTransactionRef = await widget.firestore
+      await widget.firestore
         .collection('usuarios')
         .doc(userCredential.user!.uid)
         .collection('transacoes')

@@ -331,7 +331,7 @@ Widget build(BuildContext context) {
                           ),
                         ),
                         Column(
-                          children: transactions.map((transaction) {
+                          children: transactions.where((transaction) => transaction.amount.abs() != 0).map((transaction) {
                             return GestureDetector(
                               onTap: () {
                                 _editTransaction(transaction);
