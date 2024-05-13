@@ -25,35 +25,33 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
   void _signUp() async {
     bool isEmailValid = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z.]+$').hasMatch(_email);
 
-    if (_nome.isEmpty || _email.isEmpty || _senha.isEmpty || _senha2.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, preencha todos os campos'),
-          backgroundColor: Colors.red,
-        ),
+  if (_nome.isEmpty || _email.isEmpty || _senha.isEmpty || _senha2.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, preencha todos os campos'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else if (_senha != _senha2) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('As senhas não coincidem!'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else if (!isEmailValid) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, insira um email válido!'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _email,
+        password: _senha,
       );
-    } else if (_senha != _senha2) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('As senhas não coincidem!'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else if (!isEmailValid) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, insira um email válido!'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else {
-      try {
-        // Cria o usuário no Firebase Authentication
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _email,
-          password: _senha,
-        );
 
         await widget.firestore
             .collection('usuarios')
@@ -64,37 +62,30 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
           'db_email': _email,
         });
 
-        await widget.firestore
-            .collection('usuarios')
-            .doc(userCredential.user!.uid)
-            .collection('transacoes')
-            .doc()
-            .set({
-          'categoria': ' ',
-          'data': DateTime.now(),
-          'despesa': true,
-          'valor': 0.0,
-        });
+      await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).collection('transacoes').doc().set({
+        'categoria': ' ',
+        'data': DateTime.now(),
+        'despesa': true,
+        'valor': 0.0,
+      });
 
-        // Navega para a tela de perfil após criar o usuário com sucesso
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ProfilePage(firestore: widget.firestore, userEmail: _email)),
-        );
-      } catch (e) {
-        print('Erro ao salvar usuário: $e');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content:
-                Text('Erro ao salvar usuário. Tente novamente mais tarde.'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: _email)),
+      );
+    } catch (e) {
+      print('Erro ao salvar usuário: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao salvar usuário. Tente novamente mais tarde.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {

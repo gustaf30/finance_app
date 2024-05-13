@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:finance_app/app.dart';
 import 'package:finance_app/features/home/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import 'primary_button.dart';
@@ -17,12 +19,13 @@ class NewTransactionForm extends StatefulWidget {
 
 class _NewTransactionFormState extends State<NewTransactionForm> {
   String? _transactionType;
+  bool despesa = false;
   final _valueController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _categoryController = TextEditingController();
   final _dateController = TextEditingController();
 
-  void _add() {
+  Future<void> _add() async {
     if (_valueController.text.isEmpty ||
         _descriptionController.text.isEmpty ||
         _categoryController.text.isEmpty ||
@@ -44,17 +47,44 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
       );
       return;
     } else {
+      try {
+        final DateTime date = DateTime.parse(_dateController.text);
+        final Timestamp timestamp = Timestamp.fromDate(date);
+        if (_transactionType == 'despesa') {
+          despesa = true;
+        }
+        await widget.firestore
+            .collection('usuarios')
+            .doc(App.userCredential?.user!.uid)
+            .collection('transacoes')
+            .add({
+          'categoria': _categoryController.text,
+          'data': timestamp,
+          'valor': double.parse(_valueController.text),
+          'despesa': despesa,
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                  firestore: widget.firestore, userEmail: widget.userEmail)
+                ),
+        );
+      } catch (e) {
+        log('Erro ao adicionar transação: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Erro ao adicionar transação'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Transação adicionada!'),
           backgroundColor: AppColors.lightBlue1,
         ),
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => HomePage(
-                firestore: widget.firestore, userEmail: widget.userEmail)),
       );
     }
   }
@@ -146,7 +176,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                   child: Row(
                     children: [
                       Radio(
-                        value: 'Despesa',
+                        value: 'despesa',
                         groupValue: _transactionType,
                         onChanged: (value) {
                           setState(() {
@@ -157,7 +187,7 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
                       ),
                       const Text('Despesa'),
                       Radio(
-                        value: 'Receita',
+                        value: 'receita',
                         groupValue: _transactionType,
                         onChanged: (value) {
                           setState(() {
