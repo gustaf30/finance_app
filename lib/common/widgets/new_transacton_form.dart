@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/app.dart';
 import 'package:finance_app/features/home/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import 'primary_button.dart';
@@ -63,6 +62,21 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
           'valor': double.parse(_valueController.text),
           'despesa': despesa,
         });
+        if(despesa == true) {
+          await widget.firestore
+              .collection('usuarios')
+              .doc(App.userCredential?.user!.uid)
+              .update({
+            'db_despesas': FieldValue.increment(double.parse(_valueController.text)), 'db_saldo': FieldValue.increment(-double.parse(_valueController.text)),
+          });
+        } else {
+          await widget.firestore
+              .collection('usuarios')
+              .doc(App.userCredential?.user!.uid)
+              .update({
+            'db_saldo': FieldValue.increment(double.parse(_valueController.text)),
+          });
+        }
         Navigator.push(
           context,
           MaterialPageRoute(

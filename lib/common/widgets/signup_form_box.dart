@@ -60,6 +60,9 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
           'db_nome': _nome,
           'db_senha': _senha,
           'db_email': _email,
+          'db_despesas': 0.0,
+          'db_renda': 0.0,
+          'db_saldo': 0.0,
         });
 
       DocumentReference newTransactionRef = await widget.firestore
