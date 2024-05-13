@@ -59,21 +59,21 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
         backgroundColor: AppColors.beige1,
         elevation: 0,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.darkBlue2,
-              AppColors.lightBlue1,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.darkBlue2,
+                AppColors.lightBlue1,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
+          child: Column(
+            children: [
+              Container(
                 color: AppColors.darkBlue2,
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -154,8 +154,9 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
                   ],
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 182),
+            ],
+          ),
         ),
       ),
     );
@@ -277,7 +278,6 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
       final double difference = oldAmount - newAmount;
 
       if (isExpense) {
-        // Se for uma despesa, subtrai a diferença do saldo e das despesas
         final DocumentSnapshot userDoc = await widget.firestore
             .collection('usuarios')
             .doc(widget.userId)
@@ -295,7 +295,6 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
               .update({'db_despesas': newExpenses, 'db_saldo': newBalance});
         }
       } else {
-        // Se for uma receita, adiciona a diferença ao saldo
         final DocumentSnapshot userDoc = await widget.firestore
             .collection('usuarios')
             .doc(widget.userId)

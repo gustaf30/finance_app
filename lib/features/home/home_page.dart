@@ -126,9 +126,10 @@ class _HomePageState extends State<HomePage> {
       await widget.firestore
           .collection('usuarios')
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({'db_despesas': newValue});
+          .update({'db_despesas': newValue, 'db_saldo': _userIncome - newValue});
       setState(() {
         _userExpense = newValue;
+        _userIncome = _userIncome - newValue;
       });
     } catch (error) {
       print('Erro ao atualizar despesas no banco de dados: $error');
@@ -160,259 +161,272 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: _refreshData,
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppColors.lightBlue1,
-                AppColors.lightBlue2,
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 2, right: 150),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Olá,',
-                      style: AppTextStyles.smallText
-                          .copyWith(color: AppColors.beige1),
-                    ),
-                    Text(
-                      _userName,
-                      style: AppTextStyles.notSoSmallText
-                          .copyWith(color: AppColors.beige1),
-                    ),
-                  ],
-                ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: RefreshIndicator(
+      onRefresh: _refreshData,
+      child: ListView(
+        children: <Widget>[
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.lightBlue1,
+                  AppColors.lightBlue2,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.darkBlue2,
-                      AppColors.lightBlue1,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 2, right: 150),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Olá,',
+                        style: AppTextStyles.smallText
+                            .copyWith(color: AppColors.beige1),
+                      ),
+                      Text(
+                        _userName,
+                        style: AppTextStyles.notSoSmallText
+                            .copyWith(color: AppColors.beige1),
+                      ),
                     ],
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(28)),
                 ),
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                height: 200,
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 20, left: 110),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Saldo',
-                            style: AppTextStyles.notSoMediumText
-                                .copyWith(color: AppColors.beige1),
-                          ),
-                          Text(
-                            'R\$ $_userBalance',
-                            style: AppTextStyles.notSoMediumText
-                                .copyWith(color: AppColors.beige1),
-                          ),
-                        ],
-                      ),
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.darkBlue2,
+                        AppColors.lightBlue1,
+                      ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 40, left: 20),
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    ' Renda',
-                                    style: AppTextStyles.notSoSmallText
-                                        .copyWith(color: AppColors.beige1),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => EditRendaPage(
-                                            firestore: widget.firestore,
-                                            userEmail: widget.userEmail,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: const Icon(Icons.edit,
-                                        color: AppColors.beige1),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                _userIncome.toString(),
-                                style: AppTextStyles.notSoSmallText
-                                    .copyWith(color: AppColors.beige1),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 60),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.arrow_circle_down,
-                                    color: AppColors.beige1,
-                                    size: 20.0,
-                                  ),
-                                  Text(
-                                    ' Despesas',
-                                    style: AppTextStyles.notSoSmallText
-                                        .copyWith(color: AppColors.beige1),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _updateDespesas(0.0);
-                                    },
-                                    child: const Icon(
-                                      Icons.refresh,
-                                      color: AppColors.beige1,
-                                      size: 20.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                _userExpense.toString(),
-                                style: AppTextStyles.notSoSmallText
-                                    .copyWith(color: AppColors.beige1),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.beige1,
-                  borderRadius: BorderRadius.all(Radius.circular(28)),
-                ),
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                height: 350, 
-                width: double.infinity, 
-                child: SingleChildScrollView(
+                    borderRadius: BorderRadius.all(Radius.circular(28)),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  height: 200,
+                  width: double.infinity,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ListTile(
-                        title: Text(
-                          'Histórico de transações',
-                          style: AppTextStyles.notSoSmallText
-                              .copyWith(color: AppColors.darkBlue1),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20, left: 110),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Saldo',
+                              style: AppTextStyles.notSoMediumText
+                                  .copyWith(color: AppColors.beige1),
+                            ),
+                            Text(
+                              'R\$ $_userBalance',
+                              style: AppTextStyles.notSoMediumText
+                                  .copyWith(color: AppColors.beige1),
+                            ),
+                          ],
                         ),
                       ),
-                      Column(
-                        children: transactions.map((transaction) {
-                          return GestureDetector(
-                            onTap: () {
-                              _editTransaction(transaction);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      Container(
+                        margin: const EdgeInsets.only(top: 40, left: 20),
+                        child: Row(
+                          children: [
+                            Column(
                               children: [
-                                Column(
+                                Row(
                                   children: [
                                     Text(
-                                      transaction.title,
+                                      ' Renda',
                                       style: AppTextStyles.notSoSmallText
-                                          .copyWith(color: AppColors.darkBlue1),
+                                          .copyWith(color: AppColors.beige1),
                                     ),
-                                    Text(
-                                      DateFormat('dd/MM/yyyy')
-                                          .format(transaction.date),
-                                      style: AppTextStyles.smallText
-                                          .copyWith(color: AppColors.darkBlue1),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => EditRendaPage(
+                                              firestore: widget.firestore,
+                                              userEmail: widget.userEmail,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: const Icon(Icons.edit,
+                                          color: AppColors.beige1),
                                     ),
                                   ],
                                 ),
                                 Text(
-                                  transaction.amount.abs().toStringAsFixed(2),
-                                  style: AppTextStyles.notSoSmallText.copyWith(
-                                      color: transaction.isExpense == false
-                                          ? Colors.green
-                                          : Colors.red),
+                                  _userIncome.toString(),
+                                  style: AppTextStyles.notSoSmallText
+                                      .copyWith(color: AppColors.beige1),
                                 ),
                               ],
                             ),
-                          );
-                        }).toList(),
+                            const SizedBox(width: 60),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.arrow_circle_down,
+                                      color: AppColors.beige1,
+                                      size: 20.0,
+                                    ),
+                                    Text(
+                                      ' Despesas',
+                                      style: AppTextStyles.notSoSmallText
+                                          .copyWith(color: AppColors.beige1),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _updateDespesas(0.0);
+                                      },
+                                      child: const Icon(
+                                        Icons.refresh,
+                                        color: AppColors.beige1,
+                                        size: 20.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  _userExpense.toString(),
+                                  style: AppTextStyles.notSoSmallText
+                                      .copyWith(color: AppColors.beige1),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.beige1,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle),
-            label: 'Novo',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_rounded),
-            label: 'Perfil',
+                const SizedBox(height: 20),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: AppColors.beige1,
+                    borderRadius: BorderRadius.all(Radius.circular(28)),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  height: 350,
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            'Histórico de transações',
+                            style: AppTextStyles.notSoSmallText
+                                .copyWith(color: AppColors.darkBlue1),
+                          ),
+                        ),
+                        Column(
+                          children: transactions.map((transaction) {
+                            return GestureDetector(
+                              onTap: () {
+                                _editTransaction(transaction);
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        transaction.title,
+                                        style: AppTextStyles.notSoSmallText
+                                            .copyWith(
+                                                color: AppColors.darkBlue1),
+                                      ),
+                                      Text(
+                                        DateFormat('dd/MM/yyyy')
+                                            .format(transaction.date),
+                                        style: AppTextStyles.smallText
+                                            .copyWith(
+                                                color: AppColors.darkBlue1),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    transaction.amount.abs().toStringAsFixed(2),
+                                    style: AppTextStyles.notSoSmallText.copyWith(
+                                        color: transaction.isExpense == false
+                                            ? Colors.green
+                                            : Colors.red),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+               const SizedBox(height: 16),
+              ],
+            ),
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.lightBlue1,
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NewTransactionPage(
-                    firestore: widget.firestore, userEmail: widget.userEmail),
-              ),
-            );
-          }
-          if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfilePage(
-                    firestore: widget.firestore, userEmail: widget.userEmail),
-              ),
-            );
-          }
-        },
       ),
-    );
-  }
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+      backgroundColor: AppColors.beige1,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add_circle),
+          label: 'Novo',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_rounded),
+          label: 'Perfil',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: AppColors.lightBlue1,
+      onTap: (int index) {
+        setState(() {
+          _selectedIndex = index;
+        });
+        if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NewTransactionPage(
+                firestore: widget.firestore,
+                userEmail: widget.userEmail,
+              ),
+            ),
+          );
+        }
+        if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfilePage(
+                firestore: widget.firestore,
+                userEmail: widget.userEmail,
+              ),
+            ),
+          );
+        }
+      },
+    ),
+  );
+}
+
 }

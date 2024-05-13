@@ -75,9 +75,7 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
           'despesa': true,
           'valor': 0.0,
         });
-
-      await newTransactionRef.delete();
-
+        
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: _email)),
