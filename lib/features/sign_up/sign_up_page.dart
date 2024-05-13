@@ -27,19 +27,19 @@ class SignUpPage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 80),
-            Text(
-              'budgy',
-              style: AppTextStyles.mediumText.copyWith(
-                color: AppColors.beige1,
-              )
-            ),
+            Text('budgy',
+                style: AppTextStyles.mediumText.copyWith(
+                  color: AppColors.beige1,
+                )),
             SizedBox(height: 15),
             Icon(
               Icons.person_rounded,
               color: AppColors.beige1,
               size: 50.0,
             ),
-            SignUpFormBox(firestore: FirebaseFirestore.instance,),
+            SignUpFormBox(
+              firestore: FirebaseFirestore.instance,
+            ),
           ],
         ),
       ),

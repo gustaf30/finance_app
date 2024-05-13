@@ -12,11 +12,12 @@ class PasswordRecoverSuccessPage extends StatefulWidget {
   const PasswordRecoverSuccessPage({super.key, required this.firestore});
 
   @override
-  _PasswordRecoverSuccessPageState createState() => _PasswordRecoverSuccessPageState();
+  _PasswordRecoverSuccessPageState createState() =>
+      _PasswordRecoverSuccessPageState();
 }
 
-class _PasswordRecoverSuccessPageState extends State<PasswordRecoverSuccessPage> {
-  
+class _PasswordRecoverSuccessPageState
+    extends State<PasswordRecoverSuccessPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,13 +66,15 @@ class _PasswordRecoverSuccessPageState extends State<PasswordRecoverSuccessPage>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 80),
                     child: PrimaryButton(
-                      text: 'Ok',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignInPage(firestore: widget.firestore)),
-                        );
-                    }),
+                        text: 'Ok',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SignInPage(firestore: widget.firestore)),
+                          );
+                        }),
                   ),
                 ],
               ),

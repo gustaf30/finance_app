@@ -31,11 +31,13 @@ class OnboardingPage extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'keep your budget',
-            style: AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
+            style:
+                AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
           ),
           Text(
             'with budgy!',
-            style: AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
+            style:
+                AppTextStyles.mediumText.copyWith(color: AppColors.lightBlue1),
           ),
           Padding(
             padding: const EdgeInsets.all(24.0),
@@ -43,8 +45,9 @@ class OnboardingPage extends StatelessWidget {
               text: 'Começar',
               onPressed: () {
                 Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignUpPage(firestore: firestore)),
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignUpPage(firestore: firestore)),
                 );
               },
             ),
@@ -53,12 +56,14 @@ class OnboardingPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SignInPage(firestore: firestore)),
+                MaterialPageRoute(
+                    builder: (context) => SignInPage(firestore: firestore)),
               );
             },
             child: Text(
               'Já tem conta? Entre aqui',
-              style: AppTextStyles.smallText.copyWith(color: AppColors.darkBlue1),
+              style:
+                  AppTextStyles.smallText.copyWith(color: AppColors.darkBlue1),
             ),
           ),
           const SizedBox(height: 16),

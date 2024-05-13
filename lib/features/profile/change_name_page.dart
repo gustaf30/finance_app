@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class ChangeNamePage extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String userEmail;
-  const ChangeNamePage({super.key, required this.firestore, required this.userEmail});
+  const ChangeNamePage(
+      {super.key, required this.firestore, required this.userEmail});
 
   @override
   State<ChangeNamePage> createState() => _ChangeNamePageState();
@@ -18,7 +19,7 @@ class ChangeNamePage extends StatefulWidget {
 class _ChangeNamePageState extends State<ChangeNamePage> {
   final _nameController = TextEditingController();
 
-  Future<void> _changeName() async{
+  Future<void> _changeName() async {
     if (_nameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -29,12 +30,17 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
       return;
     } else {
       try {
-        await widget.firestore.collection('usuarios').doc(FirebaseAuth.instance.currentUser!.uid).update({
+        await widget.firestore
+            .collection('usuarios')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({
           'db_nome': _nameController.text,
         });
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SuccessNamePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+          MaterialPageRoute(
+              builder: (context) => SuccessNamePage(
+                  firestore: widget.firestore, userEmail: widget.userEmail)),
         );
       } catch (error) {
         print('Erro ao atualizar o nome do usuário: $error');
@@ -60,7 +66,8 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
       appBar: AppBar(
         title: Text(
           'Alterar nome',
-          style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.darkBlue2),
+          style: AppTextStyles.notSoMediumText
+              .copyWith(color: AppColors.darkBlue2),
         ),
         centerTitle: true,
         backgroundColor: AppColors.beige1,
@@ -92,11 +99,13 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
             ),
             Text(
               'Usuário da Silva',
-              style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.beige1),
+              style: AppTextStyles.notSoMediumText
+                  .copyWith(color: AppColors.beige1),
             ),
             Text(
               'usuario@email.com.br',
-              style: AppTextStyles.notSoSmallText.copyWith(color: AppColors.beige1),
+              style: AppTextStyles.notSoSmallText
+                  .copyWith(color: AppColors.beige1),
             ),
             const SizedBox(height: 50),
             Container(
@@ -116,7 +125,8 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                       controller: _nameController,
                       decoration: InputDecoration(
                         labelText: 'Nome',
-                        labelStyle: AppTextStyles.notSoSmallText.copyWith(color: AppColors.darkBlue2),
+                        labelStyle: AppTextStyles.notSoSmallText
+                            .copyWith(color: AppColors.darkBlue2),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: AppColors.darkBlue2),
                         ),

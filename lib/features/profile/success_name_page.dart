@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 class SuccessNamePage extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String userEmail;
-  const SuccessNamePage({super.key, required this.firestore, required this.userEmail});
+  const SuccessNamePage(
+      {super.key, required this.firestore, required this.userEmail});
 
   @override
   State<SuccessNamePage> createState() => _SuccessNamePageState();
@@ -21,7 +22,8 @@ class _SuccessNamePageState extends State<SuccessNamePage> {
       appBar: AppBar(
         title: Text(
           'Alterar nome',
-          style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.darkBlue2),
+          style: AppTextStyles.notSoMediumText
+              .copyWith(color: AppColors.darkBlue2),
         ),
         centerTitle: true,
         backgroundColor: AppColors.beige1,
@@ -31,7 +33,10 @@ class _SuccessNamePageState extends State<SuccessNamePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+              MaterialPageRoute(
+                  builder: (context) => ProfilePage(
+                      firestore: widget.firestore,
+                      userEmail: widget.userEmail)),
             );
           },
         ),
@@ -52,25 +57,33 @@ class _SuccessNamePageState extends State<SuccessNamePage> {
             color: AppColors.beige1,
             borderRadius: BorderRadius.all(Radius.circular(28)),
           ),
-          margin: const EdgeInsets.only(top: 200, left: 20, right: 20, bottom: 200),
+          margin:
+              const EdgeInsets.only(top: 200, left: 20, right: 20, bottom: 200),
           child: Column(
             children: [
               const SizedBox(height: 80),
               Center(
-                  child: Text(
-                    'Nome alterado com sucesso!',
-                    style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.darkBlue2),
-                  ),
+                child: Text(
+                  'Nome alterado com sucesso!',
+                  style: AppTextStyles.notSoMediumText
+                      .copyWith(color: AppColors.darkBlue2),
                 ),
+              ),
               const SizedBox(height: 25),
               Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 30.0, left: 30.0, right: 30.0),
-                child: PrimaryButton(text: 'Voltar ao perfil', onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail)),
-                  );
-                }),
+                padding: const EdgeInsets.only(
+                    top: 16.0, bottom: 30.0, left: 30.0, right: 30.0),
+                child: PrimaryButton(
+                    text: 'Voltar ao perfil',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage(
+                                firestore: widget.firestore,
+                                userEmail: widget.userEmail)),
+                      );
+                    }),
               )
             ],
           ),

@@ -35,7 +35,7 @@ class SplashPage extends StatelessWidget {
           ),
         ),
         child: Text(
-          'budgy', 
+          'budgy',
           style: AppTextStyles.bigText.copyWith(color: AppColors.beige1),
         ),
       ),

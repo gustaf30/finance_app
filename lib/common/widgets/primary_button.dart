@@ -46,10 +46,9 @@ class PrimaryButton extends StatelessWidget {
                 end: Alignment.bottomCenter,
               ),
             ),
-            child: Text(
-              text,
-              style: 
-                AppTextStyles.notSoSmallText.copyWith(color: Colors.white)),
+            child: Text(text,
+                style:
+                    AppTextStyles.notSoSmallText.copyWith(color: Colors.white)),
           ),
         ),
       ),

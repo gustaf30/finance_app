@@ -1,9 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
 import 'package:finance_app/features/new_transaction/new_transaction_page.dart';
 import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -11,8 +13,9 @@ class Transaction {
   final String title;
   final double amount;
   final DateTime date;
+  final bool isExpense;
 
-  Transaction({required this.title, required this.amount, required this.date});
+  Transaction({required this.title, required this.amount, required this.date, required this.isExpense});
 }
 
 class HomePage extends StatefulWidget {
@@ -29,13 +32,64 @@ class _HomePageState extends State<HomePage> {
   double saldo = 1000.0;
   double renda = 1800.0;
   double despesas = 800.0;
+  String _userName = '';
+  List<Transaction> transactions = [];
 
-  List<Transaction> transactions = [
-    Transaction(title: 'iFood', amount: -50.0, date: DateTime.now()),
-    Transaction(title: 'Pix', amount: 21.0, date: DateTime(2024, 4, 11)),
-    Transaction(title: 'Uber', amount: -12.0, date: DateTime(2024, 4, 9)),
-    Transaction(title: 'Salário', amount: 1800.0, date: DateTime(2024, 4, 8)),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
+    getTransactions();
+  }
+
+  void getTransactions() async {
+    try {
+      // Consulta as transações do usuário atual
+      QuerySnapshot querySnapshot = await widget.firestore
+          .collection('usuarios')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('transacoes')
+          .get();
+
+      List<Transaction> fetchedTransactions = [];
+      querySnapshot.docs.forEach((document) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        fetchedTransactions.add(Transaction(
+          title: data['categoria'],
+          amount: data['valor'].toDouble(),
+          date: (data['data'] as Timestamp).toDate(),
+          isExpense: data['despesa'] as bool,
+        ));
+        print(transactions);
+      });
+
+      setState(() {
+        transactions = fetchedTransactions;
+      });
+    } catch (e) {
+      print('Erro ao buscar transações: $e');
+    }
+  }
+
+  void getUserName() async {
+    try {
+      DocumentSnapshot userDoc = await widget.firestore
+          .collection('usuarios')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        print('Dados do usuário: $userData');
+        setState(() {
+          _userName = userData['db_nome'];
+        });
+      } else {
+        print('Documento do usuário não encontrado');
+      }
+    } catch (e) {
+      print('Erro ao buscar nome do usuário: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +109,18 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 2, right: 250),
+              margin: const EdgeInsets.only(top: 10, bottom: 2, right: 150),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Bom dia,',
+                    'Olá,',
                     style: AppTextStyles.smallText
                         .copyWith(color: AppColors.beige1),
                   ),
                   Text(
-                    'Usuário',
+                    _userName,
                     style: AppTextStyles.notSoSmallText
                         .copyWith(color: AppColors.beige1),
                   ),
@@ -204,11 +258,11 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             Text(
-                              '${transaction.amount > 0 ? '+' : ''} R\$ ${transaction.amount.toStringAsFixed(2)}',
+                              transaction.amount.abs().toStringAsFixed(2),
                               style: AppTextStyles.notSoSmallText.copyWith(
-                                  color: transaction.amount > 0
-                                      ? Colors.green
-                                      : Colors.red),
+                                 color: transaction.isExpense == false
+                                     ? Colors.green
+                                    : Colors.red),
                             ),
                           ],
                         );
@@ -247,8 +301,8 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    NewTransactionPage(firestore: widget.firestore, userEmail: widget.userEmail),
+                builder: (context) => NewTransactionPage(
+                    firestore: widget.firestore, userEmail: widget.userEmail),
               ),
             );
           }
@@ -256,7 +310,8 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail),
+                builder: (context) => ProfilePage(
+                    firestore: widget.firestore, userEmail: widget.userEmail),
               ),
             );
           }

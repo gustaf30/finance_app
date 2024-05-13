@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
@@ -30,7 +32,8 @@ class _SignInFormBoxState extends State<SignInFormBox> {
 
   void getUserData(String email) async {
     try {
-      DocumentSnapshot userDoc = await widget.firestore.collection('usuarios').doc(email).get();
+      DocumentSnapshot userDoc =
+          await widget.firestore.collection('usuarios').doc(email).get();
       if (userDoc.exists) {
         Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
         print('Dados do usuário: $userData');
@@ -66,6 +69,7 @@ class _SignInFormBoxState extends State<SignInFormBox> {
       print('Email: $email');
       print('Senha: $senha');
       try {
+        // ignore: unused_local_variable
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email,
           password: senha,
@@ -75,11 +79,8 @@ class _SignInFormBoxState extends State<SignInFormBox> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => HomePage(
-                    firestore: widget.firestore,
-                    userEmail: email
-                  )
-                ),
+              builder: (context) =>
+                  HomePage(firestore: widget.firestore, userEmail: email)),
         );
       } catch (e) {
         // Exiba uma mensagem de erro se o login falhar

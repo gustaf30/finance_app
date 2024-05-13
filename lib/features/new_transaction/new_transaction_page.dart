@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class NewTransactionPage extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String userEmail;
-  const NewTransactionPage({super.key, required this.firestore, required this.userEmail});
+  const NewTransactionPage(
+      {super.key, required this.firestore, required this.userEmail});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -25,8 +26,9 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
       appBar: AppBar(
         title: Text(
           'Nova Transação',
-          style: AppTextStyles.notSoMediumText.copyWith(color: AppColors.darkBlue2),
-          ),
+          style: AppTextStyles.notSoMediumText
+              .copyWith(color: AppColors.darkBlue2),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.beige1,
         elevation: 0,
@@ -42,7 +44,8 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: NewTransactionForm(firestore: widget.firestore, userEmail: widget.userEmail),
+        child: NewTransactionForm(
+            firestore: widget.firestore, userEmail: widget.userEmail),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.beige1,
@@ -69,13 +72,19 @@ class _NewTransactionPageState extends State<NewTransactionPage> {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+              MaterialPageRoute(
+                  builder: (context) => HomePage(
+                      firestore: widget.firestore,
+                      userEmail: widget.userEmail)),
             );
           }
           if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+              MaterialPageRoute(
+                  builder: (context) => ProfilePage(
+                      firestore: widget.firestore,
+                      userEmail: widget.userEmail)),
             );
           }
         },

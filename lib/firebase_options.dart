@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'finance-db-utfpr-423018.appspot.com',
     measurementId: 'G-ZEC36YK40L',
   );
-
 }

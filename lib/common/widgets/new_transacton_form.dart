@@ -8,7 +8,8 @@ import 'primary_button.dart';
 class NewTransactionForm extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String userEmail;
-  const NewTransactionForm({super.key, required this.firestore, required this.userEmail});
+  const NewTransactionForm(
+      {super.key, required this.firestore, required this.userEmail});
 
   @override
   State<NewTransactionForm> createState() => _NewTransactionFormState();
@@ -51,7 +52,9 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
       );
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomePage(firestore: widget.firestore, userEmail: widget.userEmail)),
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                firestore: widget.firestore, userEmail: widget.userEmail)),
       );
     }
   }

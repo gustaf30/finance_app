@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class ChangePasswordPage extends StatefulWidget {
   final FirebaseFirestore firestore;
   final String userEmail;
-  const ChangePasswordPage({super.key, required this.firestore, required this.userEmail});
+  const ChangePasswordPage(
+      {super.key, required this.firestore, required this.userEmail});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -58,13 +59,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       );
       return;
     } else {
-      try{
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: widget.userEmail,
           password: _currentPasswordController.text,
         );
         await userCredential.user!.updatePassword(_newPasswordController.text);
-        await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).update({
+        await widget.firestore
+            .collection('usuarios')
+            .doc(userCredential.user!.uid)
+            .update({
           'db_senha': _newPasswordController.text,
         });
         ScaffoldMessenger.of(context).showSnackBar(
@@ -75,7 +80,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SuccessPasswordPage(firestore: widget.firestore, userEmail: widget.userEmail)),
+          MaterialPageRoute(
+              builder: (context) => SuccessPasswordPage(
+                  firestore: widget.firestore, userEmail: widget.userEmail)),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
