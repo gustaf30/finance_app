@@ -21,12 +21,34 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool _showPassword = false;
   late TextEditingController _currentPasswordController;
   late TextEditingController _newPasswordController;
+  String _userName = '';
+
+  void getUserName() async {
+    try {
+      DocumentSnapshot userDoc = await widget.firestore
+          .collection('usuarios')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        print('Dados do usuário: $userData');
+        setState(() {
+          _userName = userData['db_nome'];
+        });
+      } else {
+        print('Documento do usuário não encontrado');
+      }
+    } catch (e) {
+      print('Erro ao buscar nome do usuário: $e');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _currentPasswordController = TextEditingController();
     _newPasswordController = TextEditingController();
+    getUserName();
   }
 
   Future<void> _changePassword() async {
@@ -121,7 +143,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         backgroundColor: AppColors.beige1,
         elevation: 0,
       ),
-      body: Container(
+      body: SingleChildScrollView(
+        child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -147,12 +170,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               ),
             ),
             Text(
-              'Usuário da Silva',
+              _userName,
               style: AppTextStyles.notSoMediumText
                   .copyWith(color: AppColors.beige1),
             ),
             Text(
-              'usuario@email.com.br',
+              widget.userEmail,
               style: AppTextStyles.notSoSmallText
                   .copyWith(color: AppColors.beige1),
             ),
@@ -223,10 +246,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ),
                 ],
               ),
-            )
+            ),
+            const SizedBox(height: 11),
           ],
         ),
       ),
+    ),
     );
   }
 }

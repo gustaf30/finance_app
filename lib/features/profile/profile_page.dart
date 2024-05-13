@@ -160,6 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(height: 30),
                     GestureDetector(
                       onTap: () {
+                        FirebaseAuth.instance.signOut();
                         Navigator.push(
                           context,
                           MaterialPageRoute(

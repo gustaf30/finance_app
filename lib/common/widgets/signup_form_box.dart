@@ -62,12 +62,18 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
           'db_email': _email,
         });
 
-      await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).collection('transacoes').doc().set({
-        'categoria': ' ',
-        'data': DateTime.now(),
-        'despesa': true,
-        'valor': 0.0,
-      });
+      DocumentReference newTransactionRef = await widget.firestore
+        .collection('usuarios')
+        .doc(userCredential.user!.uid)
+        .collection('transacoes')
+        .add({
+          'categoria': ' ',
+          'data': DateTime.now(),
+          'despesa': true,
+          'valor': 0.0,
+        });
+
+      await newTransactionRef.delete();
 
       Navigator.push(
         context,

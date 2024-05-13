@@ -18,6 +18,33 @@ class ChangeNamePage extends StatefulWidget {
 
 class _ChangeNamePageState extends State<ChangeNamePage> {
   final _nameController = TextEditingController();
+  String _userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
+  void getUserName() async {
+    try {
+      DocumentSnapshot userDoc = await widget.firestore
+          .collection('usuarios')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        print('Dados do usuário: $userData');
+        setState(() {
+          _userName = userData['db_nome'];
+        });
+      } else {
+        print('Documento do usuário não encontrado');
+      }
+    } catch (e) {
+      print('Erro ao buscar nome do usuário: $e');
+    }
+  }
 
   Future<void> _changeName() async {
     if (_nameController.text.isEmpty) {
@@ -61,19 +88,20 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Alterar nome',
-          style: AppTextStyles.notSoMediumText
-              .copyWith(color: AppColors.darkBlue2),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.beige1,
-        elevation: 0,
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(
+        'Alterar nome',
+        style: AppTextStyles.notSoMediumText
+            .copyWith(color: AppColors.darkBlue2),
       ),
-      body: Container(
+      centerTitle: true,
+      backgroundColor: AppColors.beige1,
+      elevation: 0,
+    ),
+    body: SingleChildScrollView(
+      child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -98,12 +126,12 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
               ),
             ),
             Text(
-              'Usuário da Silva',
+              _userName,
               style: AppTextStyles.notSoMediumText
                   .copyWith(color: AppColors.beige1),
             ),
             Text(
-              'usuario@email.com.br',
+              widget.userEmail,
               style: AppTextStyles.notSoSmallText
                   .copyWith(color: AppColors.beige1),
             ),
@@ -114,7 +142,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                 borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              height: 300, // Ajuste a altura conforme necessário
+              height: 270, // Ajuste a altura conforme necessário
               width: double.infinity,
               child: Column(
                 children: [
@@ -135,7 +163,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                   ),
                   const SizedBox(height: 50),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
+                    padding: const EdgeInsets.symmetric(horizontal: 100),
                     child: PrimaryButton(
                       text: 'Salvar',
                       onPressed: () {
@@ -145,10 +173,12 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                   ),
                 ],
               ),
-            )
+            ),
+            const SizedBox(height: 41),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

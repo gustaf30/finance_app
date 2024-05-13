@@ -43,33 +43,34 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getTransactions() async {
-    try {
-      // Consulta as transações do usuário atual
-      QuerySnapshot querySnapshot = await widget.firestore
-          .collection('usuarios')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('transacoes')
-          .get();
+  try {
+    // Consulta as transações do usuário atual ordenadas por data
+    QuerySnapshot querySnapshot = await widget.firestore
+        .collection('usuarios')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('transacoes')
+        .orderBy('data', descending: true) // ordenar por data em ordem decrescente
+        .get();
 
-      List<Transaction> fetchedTransactions = [];
-      querySnapshot.docs.forEach((document) {
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        fetchedTransactions.add(Transaction(
-          title: data['categoria'],
-          amount: data['valor'].toDouble(),
-          date: (data['data'] as Timestamp).toDate(),
-          isExpense: data['despesa'] as bool,
-        ));
-        print(transactions);
-      });
-
-      setState(() {
-        transactions = fetchedTransactions;
-      });
-    } catch (e) {
-      print('Erro ao buscar transações: $e');
+    List<Transaction> fetchedTransactions = [];
+    for (var document in querySnapshot.docs) {
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+      fetchedTransactions.add(Transaction(
+        title: data['categoria'],
+        amount: data['valor'].toDouble(),
+        date: (data['data'] as Timestamp).toDate(),
+        isExpense: data['despesa'] as bool,
+      ));
     }
+
+    setState(() {
+      transactions = fetchedTransactions;
+    });
+  } catch (e) {
+    print('Erro ao buscar transações: $e');
   }
+}
+
 
   void getUserName() async {
     try {
