@@ -48,7 +48,6 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
     );
   } else {
     try {
-      // Cria o usuário no Firebase Authentication
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _email,
         password: _senha,
@@ -63,11 +62,10 @@ class _SignUpFormBoxState extends State<SignUpFormBox> {
       await widget.firestore.collection('usuarios').doc(userCredential.user!.uid).collection('transacoes').doc().set({
         'categoria': ' ',
         'data': DateTime.now(),
-        'despeza': true,
+        'despesa': true,
         'valor': 0.0,
       });
 
-      // Navega para a tela de perfil após criar o usuário com sucesso
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProfilePage(firestore: widget.firestore, userEmail: _email)),

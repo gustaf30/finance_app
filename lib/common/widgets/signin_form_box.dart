@@ -1,3 +1,4 @@
+import 'package:finance_app/app.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
@@ -70,8 +71,8 @@ class _SignInFormBoxState extends State<SignInFormBox> {
           email: email,
           password: senha,
         );
+        App.userCredential = userCredential;
         getUserData(email);
-        // Login bem-sucedido, navegue para a tela principal
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -82,7 +83,6 @@ class _SignInFormBoxState extends State<SignInFormBox> {
                 ),
         );
       } catch (e) {
-        // Exiba uma mensagem de erro se o login falhar
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Erro ao fazer login: ${e.toString()}'),
