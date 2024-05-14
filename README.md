@@ -48,7 +48,8 @@ Outra possibilidade, é utilizar o Android SDK para simular um dispositivo Andro
 [Link para o Figma Design](https://www.figma.com/file/FaexLZ0LIG09krkHTMUvWp/Financy-App-(Copy)?type=design&node-id=0%3A1&mode=design&t=7caaAUx3CS2esctw-1)
 
 ### Estrutura do Aplicativo
-
+```
+.
 ├── android                         - Contém os arquivos necessários para executar o aplicativo em uma plataforma Android.
 ├── assets                          - Contém todas as imagens e fontes do aplicativo.
 ├── ios                             - Contém os arquivos necessários para executar o aplicativo em uma plataforma iOS.
@@ -62,7 +63,7 @@ Outra possibilidade, é utilizar o Android SDK para simular um dispositivo Andro
     ├── routes                      - Contém todas as rotas do aplicativo
     └── theme                       - Contém temas de aplicativos e aulas de decoração
     └── widgets                     - Contém todas as classes de widgets personalizados
-
+```
 
 ### Distribuição das Atividades Entre os Integrantes do Grupo
 #### Entrega 1
