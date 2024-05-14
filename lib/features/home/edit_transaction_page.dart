@@ -81,9 +81,9 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
                   children: [
                     TextFormField(
                       controller: _categoryController,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors
-                              .white), // Texto branco para melhor visibilidade
+                              .white),
                       decoration: InputDecoration(
                         labelText: 'Categoria',
                         labelStyle: AppTextStyles.notSoSmallText
@@ -97,9 +97,9 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
                     TextFormField(
                       controller: _amountController,
                       keyboardType: TextInputType.number,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors
-                              .white), // Texto branco para melhor visibilidade
+                              .white),
                       decoration: InputDecoration(
                         labelText: 'Valor',
                         labelStyle: AppTextStyles.notSoSmallText
@@ -140,7 +140,6 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
                     PrimaryButton(
                       text: 'Salvar',
                       onPressed: () {
-                        // Salvar a transação editada
                         _updateTransaction();
                       },
                     ),
@@ -202,7 +201,6 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
 
   void _deleteTransaction() async {
     try {
-      // Remover a transação do Firestore
       await widget.firestore
           .collection('usuarios')
           .doc(widget.userId)
@@ -217,7 +215,6 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
         ),
       );
 
-      // Atualizar o saldo e as despesas se necessário
       if (_isExpense) {
         final DocumentSnapshot userDoc = await widget.firestore
             .collection('usuarios')
@@ -272,7 +269,6 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
         'categoria': newCategory,
         'valor': newAmount,
         'despesa': _isExpense,
-        'data': _selectedDate, // Atualiza a data da transação
       });
 
       final double difference = oldAmount - newAmount;
@@ -288,7 +284,7 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
           final double currentExpenses = userData['db_despesas'];
           final double currentBalance = userData['db_saldo'];
           final double newExpenses = currentExpenses - difference;
-          final double newBalance = currentBalance - difference;
+          final double newBalance = currentBalance + difference;
           await widget.firestore
               .collection('usuarios')
               .doc(widget.userId)
@@ -303,7 +299,7 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
           final Map<String, dynamic> userData =
               userDoc.data() as Map<String, dynamic>;
           final double currentBalance = userData['db_saldo'];
-          final double newBalance = currentBalance + difference;
+          final double newBalance = currentBalance - difference;
           await widget.firestore
               .collection('usuarios')
               .doc(widget.userId)

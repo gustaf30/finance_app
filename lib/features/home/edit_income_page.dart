@@ -54,7 +54,7 @@ class _EditRendaPageState extends State<EditRendaPage> {
                     TextField(
                       controller: _rendaController,
                       keyboardType: TextInputType.number,
-                      style: TextStyle(color: Colors.white), // Alterado para branco
+                      style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: 'Renda',
                         labelStyle: AppTextStyles.notSoSmallText.copyWith(color: AppColors.beige1),
@@ -72,7 +72,6 @@ class _EditRendaPageState extends State<EditRendaPage> {
                     PrimaryButton(
                       text: 'Salvar',
                       onPressed: () {
-                        // Salve a renda no Firestore
                         _saveRenda();
                       },
                     ),
@@ -96,7 +95,6 @@ class _EditRendaPageState extends State<EditRendaPage> {
       );
       return;
     } else {
-      // Atualize a renda do usuário no Firestore
       try {
         double renda = double.parse(_rendaController.text);
         await widget.firestore.collection('usuarios').doc(FirebaseAuth.instance.currentUser!.uid).update({
@@ -104,7 +102,6 @@ class _EditRendaPageState extends State<EditRendaPage> {
           'db_despesas': 0.0,
           'db_saldo': renda,
         });
-        // Retorne para a página anterior
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

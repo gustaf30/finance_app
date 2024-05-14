@@ -105,9 +105,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: AppColors.beige1,
                   borderRadius: BorderRadius.all(Radius.circular(28)),
                 ),
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 20), // Ajuste as margens aqui
-                height: 200, // Ajuste a altura conforme necessário
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                height: 200,
                 width: double.infinity,
                 child: Column(
                   children: [
@@ -185,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(
                   height:
-                      33), // Adiciona margem abaixo do contêiner com as opções
+                      33), 
             ],
           ),
         ),
