@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
@@ -10,6 +12,8 @@ import 'package:finance_app/features/profile/change_password_page.dart';
 import 'package:finance_app/features/sign_in/sign_in_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   final FirebaseFirestore firestore;
@@ -24,11 +28,82 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   int _selectedIndex = 2;
   String _userName = '';
+  String _profileImageUrl = '';
 
   @override
   void initState() {
     super.initState();
     getUserName();
+    getUserProfileImage();
+  }
+
+  Future<void> getUserProfileImage() async {
+    try {
+      DocumentSnapshot userDoc = await widget.firestore
+          .collection('usuarios')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        setState(() {
+          _profileImageUrl = userData['profile_image_url'] ?? '';
+        });
+      }
+    } catch (e) {
+      print('Erro ao buscar imagem do usuário: $e');
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+
+    // Escolher entre câmera e galeria
+    final source = await showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text("Selecionar imagem de"),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, ImageSource.camera),
+            child: Text('Câmera'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, ImageSource.gallery),
+            child: Text('Galeria'),
+          ),
+        ],
+      ),
+    );
+    if (source != null) {
+      final XFile? image = await _picker.pickImage(source: source);
+
+      if (image != null) {
+        await _uploadImageToFirebase(image);
+      }
+    }
+  }
+
+  Future<void> _uploadImageToFirebase(XFile image) async {
+    try {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profile_images')
+          .child('${FirebaseAuth.instance.currentUser!.uid}.jpg');
+
+      await storageRef.putFile(File(image.path));
+      String downloadUrl = await storageRef.getDownloadURL();
+
+      await widget.firestore
+          .collection('usuarios')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'profile_image_url': downloadUrl});
+
+      setState(() {
+        _profileImageUrl = downloadUrl;
+      });
+    } catch (e) {
+      print('Erro ao fazer upload da imagem: $e');
+    }
   }
 
   void getUserName() async {
@@ -80,12 +155,22 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Center(
                 heightFactor: 1.5,
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/profile_picture.jpg',
-                    width: 150,
-                    height: 150,
-                    fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: _pickImage,
+                  child: ClipOval(
+                    child: _profileImageUrl.isEmpty
+                        ? Image.asset(
+                            'assets/images/profile_picture.jpg',
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            _profileImageUrl,
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ),
