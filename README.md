@@ -9,6 +9,7 @@ BUDGY é uma ferramenta projetada para ajudar você a acompanhar suas despesas, 
 - Orçamentos Personalizados: Estabeleça metas financeiras e acompanhe seu progresso ao longo do tempo com orçamentos personalizados.
 - Organização em categorias: Controle sua receita e evite prejuízos ou gastos desnecessários.
 - Sincronização em Nuvem: Sincronize seus dados em vários dispositivos para acessar suas informações financeiras de qualquer lugar, a qualquer momento.
+- Cotações de moedas: Consulte os valores das cotações atuais de outras moedas em tempo real.
 
 ### Instalação
 Siga as instruções abaixo para configurar e executar o aplicativo em seu dispositivo:
