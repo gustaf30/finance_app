@@ -2,6 +2,7 @@
 
 import 'package:finance_app/common/constants/app_colors.dart';
 import 'package:finance_app/common/constants/app_text_styles.dart';
+import 'package:finance_app/features/currency_rates/currency_rates_page.dart';
 import 'package:finance_app/features/home/edit_income_page.dart';
 import 'package:finance_app/features/home/edit_transaction_page.dart';
 import 'package:finance_app/features/new_transaction/new_transaction_page.dart';
@@ -9,6 +10,7 @@ import 'package:finance_app/features/profile/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class Transaction {
@@ -179,20 +181,43 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 2, right: 150),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                margin: const EdgeInsets.only(top: 10, bottom: 2, right: 10),
+                child: Row(
                   children: [
-                    Text(
-                      'Olá,',
-                      style: AppTextStyles.smallText
-                          .copyWith(color: AppColors.beige1),
+                    const SizedBox(width: 40),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Olá,',
+                          style: AppTextStyles.smallText
+                              .copyWith(color: AppColors.beige1),
+                        ),
+                        Text(
+                          _userName,
+                          style: AppTextStyles.notSoSmallText
+                              .copyWith(color: AppColors.beige1),
+                        ),
+                      ],
                     ),
-                    Text(
-                      _userName,
-                      style: AppTextStyles.notSoSmallText
-                          .copyWith(color: AppColors.beige1),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CurrencyRatesPage(),
+                            ));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 90),
+                        child: const Text(
+                          'Cotações',
+                          style: TextStyle(
+                            color: AppColors.beige1,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -315,8 +340,8 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.all(Radius.circular(28)),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 20),
-                height: 350, 
-                width: double.infinity, 
+                height: 350,
+                width: double.infinity,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
